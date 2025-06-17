@@ -31,6 +31,12 @@ class Salle
     #[Assert\Type(type: 'integer', message: 'Doit être un nombre entier.')]
     private ?int $capacite = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\Length(max: 255, maxMessage: '{{ max }} caractères maximum')]
+    #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
+    private ?string $image = null;
+
+
     #[ORM\Column(nullable: false)]
     private ?bool $statut = null;
 
@@ -52,6 +58,7 @@ class Salle
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'salles')]
     private Collection $reservation;
+
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
@@ -195,6 +202,18 @@ class Salle
                 $reservation->setSalles(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }
