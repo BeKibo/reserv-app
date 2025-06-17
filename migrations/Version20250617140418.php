@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250617124529 extends AbstractMigration
+final class Version20250617140418 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -38,7 +38,7 @@ final class Version20250617124529 extends AbstractMigration
             CREATE INDEX IDX_42C8495567B3B43D ON reservation (users_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, statut BOOLEAN NOT NULL)
+            CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, reserved BOOLEAN NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE salle_equipement (salle_id INTEGER NOT NULL, equipement_id INTEGER NOT NULL, PRIMARY KEY(salle_id, equipement_id), CONSTRAINT FK_D338336BDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D338336B806F0F5C FOREIGN KEY (equipement_id) REFERENCES equipement (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)

@@ -18,7 +18,7 @@ class Salle
 
     #[ORM\Column(length: 80, nullable: true)]
     #[Assert\Length(min: 2, max: 80, minMessage: 'Le nom contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
-    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/',message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 125, nullable: true)]
@@ -27,7 +27,7 @@ class Salle
     private ?string $lieu = null;
 
     #[ORM\Column]
-    #[Assert\Length(min:2 , max:3, minMessage: 'La capacité minimum est de {{ min }} et au maximum de {{ max }} ')]
+    #[Assert\Length(min: 2, max: 3, minMessage: 'La capacité minimum est de {{ min }} et au maximum de {{ max }} ')]
     #[Assert\Type(type: 'integer', message: 'Doit être un nombre entier.')]
     private ?int $capacite = null;
 
@@ -36,10 +36,8 @@ class Salle
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
     private ?string $image = 'default.jpg';
 
-
-    #[ORM\Column(nullable: false)]
-    private ?bool $statut = null;
-
+    #[ORM\Column(name: 'reserved', nullable: false)]
+    private ?bool $reserved = null;
 
     /**
      * @var Collection<int, Equipement>
@@ -59,13 +57,12 @@ class Salle
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'salles')]
     private Collection $reservation;
 
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function updateStatut(): void
+    public function updateReserved(): void
     {
-        // Exemple : la salle est disponible s’il n’y a aucune réservation
-        $this->statut = $this->reservation->isEmpty();
+        // Ex : la salle est marquée comme "réservée" si elle a au moins une réservation
+        $this->reserved = !$this->reservation->isEmpty();
     }
 
     public function __construct()
@@ -88,7 +85,6 @@ class Salle
     public function setNom(?string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -100,7 +96,6 @@ class Salle
     public function setLieu(?string $lieu): static
     {
         $this->lieu = $lieu;
-
         return $this;
     }
 
@@ -112,7 +107,6 @@ class Salle
     public function setCapacite(int $capacite): static
     {
         $this->capacite = $capacite;
-
         return $this;
     }
 
@@ -136,7 +130,6 @@ class Salle
     public function removeEquipement(Equipement $equipement): static
     {
         $this->Equipement->removeElement($equipement);
-
         return $this;
     }
 
@@ -160,19 +153,6 @@ class Salle
     public function removeCritergo(CritErgo $critergo): static
     {
         $this->critergo->removeElement($critergo);
-
-        return $this;
-    }
-
-    public function isStatut(): ?bool
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(bool $statut): static
-    {
-        $this->statut = $statut;
-
         return $this;
     }
 
@@ -197,7 +177,6 @@ class Salle
     public function removeReservation(Reservation $reservation): static
     {
         if ($this->reservation->removeElement($reservation)) {
-            // set the owning side to null (unless already changed)
             if ($reservation->getSalles() === $this) {
                 $reservation->setSalles(null);
             }
@@ -214,7 +193,17 @@ class Salle
     public function setImage(string $image): static
     {
         $this->image = $image;
+        return $this;
+    }
 
+    public function isReserved(): ?bool
+    {
+        return $this->reserved;
+    }
+
+    public function setReserved(bool $reserved): static
+    {
+        $this->reserved = $reserved;
         return $this;
     }
 }
