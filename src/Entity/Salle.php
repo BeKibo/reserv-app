@@ -47,10 +47,25 @@ class Salle
     #[ORM\ManyToMany(targetEntity: CritErgo::class, inversedBy: 'salles')]
     private Collection $critergo;
 
+    /**
+     * @var Collection<int, Reservation>
+     */
+    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'salles')]
+    private Collection $reservation;
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function updateStatut(): void
+    {
+        // Exemple : la salle est disponible s’il n’y a aucune réservation
+        $this->statut = $this->reservation->isEmpty();
+    }
+
     public function __construct()
     {
         $this->Equipement = new ArrayCollection();
         $this->critergo = new ArrayCollection();
+        $this->reservation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,6 +165,36 @@ class Salle
     public function setStatut(bool $statut): static
     {
         $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservation(): Collection
+    {
+        return $this->reservation;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservation->contains($reservation)) {
+            $this->reservation->add($reservation);
+            $reservation->setSalles($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservation->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getSalles() === $this) {
+                $reservation->setSalles(null);
+            }
+        }
 
         return $this;
     }
