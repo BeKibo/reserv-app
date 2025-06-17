@@ -6,16 +6,20 @@ use App\Repository\EquipementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EquipementRepository::class)]
 class Equipement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
+    
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 80)]
+    #[Assert\Length(min: 2, max: 80, minMessage: 'Le nom contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
     private ?string $nom = null;
 
     #[ORM\Column]

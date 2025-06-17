@@ -20,8 +20,6 @@ class Reservation
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private ?\DateTimeImmutable $dateFin = null;
 
-    #[ORM\Column]
-    private ?bool $statut = null;
 
     public function getId(): ?int
     {
@@ -52,15 +50,5 @@ class Reservation
         return $this;
     }
 
-    public function isStatut(): ?bool
-    {
-        return $this->statut;
-    }
 
-    public function setStatut(bool $statut): static
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
 }

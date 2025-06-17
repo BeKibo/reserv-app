@@ -31,6 +31,10 @@ class Salle
     #[Assert\Type(type: 'integer', message: 'Doit être un nombre entier.')]
     private ?int $capacite = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?bool $statut = null;
+
+
     /**
      * @var Collection<int, Equipement>
      */
@@ -134,6 +138,18 @@ class Salle
     public function removeCritergo(CritErgo $critergo): static
     {
         $this->critergo->removeElement($critergo);
+
+        return $this;
+    }
+
+    public function isStatut(): ?bool
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(bool $statut): static
+    {
+        $this->statut = $statut;
 
         return $this;
     }
