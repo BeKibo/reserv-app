@@ -49,8 +49,7 @@ class SalleFixtures extends Fixture
                 ->setNom($uniqueName)
                 ->setLieu($faker->address())
                 ->setCapacite($faker->randomElement([50, 80, 100, 140, 200]))
-                ->setImage('/medias/images/' . $faker->randomElement($images))
-                ->setReserved($faker->boolean(30));
+                ->setImage('/medias/images/' . $faker->randomElement($images));
 
             $manager->persist($salle);
         }

@@ -23,7 +23,7 @@ class UserFixtures extends Fixture
             $user = new User();
             $user
                 ->setEmail($faker->email())
-                ->setNom($faker->lastName()) // ou $faker->name()
+                ->setNom($faker->Name())
                 ->setPassword($this->hasher->hashPassword($user, 'admin'))
             ;
 

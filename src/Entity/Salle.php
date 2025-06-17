@@ -36,9 +36,6 @@ class Salle
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
     private ?string $image = 'default.jpg';
 
-    #[ORM\Column(name: 'reserved', nullable: false)]
-    private ?bool $reserved = null;
-
     /**
      * @var Collection<int, Equipement>
      */
@@ -56,14 +53,6 @@ class Salle
      */
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'salles')]
     private Collection $reservation;
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function updateReserved(): void
-    {
-        // Ex : la salle est marquée comme "réservée" si elle a au moins une réservation
-        $this->reserved = !$this->reservation->isEmpty();
-    }
 
     public function __construct()
     {
@@ -107,6 +96,17 @@ class Salle
     public function setCapacite(int $capacite): static
     {
         $this->capacite = $capacite;
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): static
+    {
+        $this->image = $image;
         return $this;
     }
 
@@ -185,25 +185,23 @@ class Salle
         return $this;
     }
 
-    public function getImage(): ?string
+    public function isReservedAt(\DateTimeImmutable $date): bool
     {
-        return $this->image;
+        foreach ($this->reservation as $res) {
+            if ($date >= $res->getDateDebut() && $date < $res->getDateFin()) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public function setImage(string $image): static
+    public function isReservedBetween(\DateTimeImmutable $start, \DateTimeImmutable $end): bool
     {
-        $this->image = $image;
-        return $this;
-    }
-
-    public function isReserved(): ?bool
-    {
-        return $this->reserved;
-    }
-
-    public function setReserved(bool $reserved): static
-    {
-        $this->reserved = $reserved;
-        return $this;
+        foreach ($this->reservation as $res) {
+            if ($start < $res->getDateFin() && $end > $res->getDateDebut()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
