@@ -40,6 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'users')]
     private Collection $reservation;
 
+    #[ORM\Column(length: 80)]
+    private ?string $nom = null;
+
     public function __construct()
     {
         $this->reservation = new ArrayCollection();
@@ -144,6 +147,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reservation->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): static
+    {
+        $this->nom = $nom;
 
         return $this;
     }
