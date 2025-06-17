@@ -6,6 +6,7 @@ use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
 class Salle
@@ -16,12 +17,18 @@ class Salle
     private ?int $id = null;
 
     #[ORM\Column(length: 80, nullable: true)]
+    #[Assert\Length(min: 2, max: 80, minMessage: 'Le nom contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/',message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
     private ?string $nom = null;
 
     #[ORM\Column(length: 125, nullable: true)]
+    #[Assert\Length(min: 2, max: 125, minMessage: 'Le lieu contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
     private ?string $lieu = null;
 
     #[ORM\Column]
+    #[Assert\Length(min:2 , max:3, minMessage: 'La capacité minimum est de {{ min }} et au maximum de {{ max }} ')]
+    #[Assert\Type(type: 'integer', message: 'Doit être un nombre entier.')]
     private ?int $capacite = null;
 
     /**
