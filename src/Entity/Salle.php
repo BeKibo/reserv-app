@@ -34,7 +34,7 @@ class Salle
     #[ORM\Column(length: 255)]
     #[Assert\Length(max: 255, maxMessage: '{{ max }} caractères maximum')]
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
-    private ?string $image = 'default.png';
+    private ?string $image = 'default.jpg';
 
 
     #[ORM\Column(nullable: false)]
