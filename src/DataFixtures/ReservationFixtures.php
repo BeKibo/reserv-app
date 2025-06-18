@@ -39,12 +39,10 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
                 $reservation->setDateFin($end);
 
                 $manager->persist($reservation);
-                $compteur++;
             }
         }
 
         $manager->flush();
-        echo "\n>>> Réservations créées : $compteur\n";
     }
 
     public function getDependencies(): array
