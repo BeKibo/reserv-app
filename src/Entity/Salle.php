@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\SalleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -35,6 +36,15 @@ class Salle
     #[Assert\Length(max: 255, maxMessage: '{{ max }} caractères maximum')]
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
     private ?string $image = 'default.jpg';
+
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Assert\Length(min: 20, max: 300, minMessage: 'Le lieu contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    private ?string $description = null;
+
+
+
+
 
     /**
      * @var Collection<int, Equipement>
@@ -185,15 +195,15 @@ class Salle
         return $this;
     }
 
-    public function isReservedAt(\DateTimeImmutable $date): bool
-    {
-        foreach ($this->reservation as $res) {
-            if ($date >= $res->getDateDebut() && $date < $res->getDateFin()) {
-                return true;
-            }
-        }
-        return false;
-    }
+    // public function isReservedAt(\DateTimeImmutable $date): bool
+    // {
+    //     foreach ($this->reservation as $res) {
+    //         if ($date >= $res->getDateDebut() && $date < $res->getDateFin()) {
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public function isReservedBetween(\DateTimeImmutable $start, \DateTimeImmutable $end): bool
     {
@@ -203,5 +213,17 @@ class Salle
             }
         }
         return false;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }

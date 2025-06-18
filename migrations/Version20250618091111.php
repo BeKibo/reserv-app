@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250617141532 extends AbstractMigration
+final class Version20250618091111 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,8 +27,8 @@ final class Version20250617141532 extends AbstractMigration
             CREATE TABLE equipement (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) NOT NULL, type BOOLEAN NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE reservation (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, salles_id INTEGER NOT NULL, users_id INTEGER NOT NULL, date_debut DATE NOT NULL --(DC2Type:date_immutable)
-            , date_fin DATE NOT NULL --(DC2Type:date_immutable)
+            CREATE TABLE reservation (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, salles_id INTEGER NOT NULL, users_id INTEGER NOT NULL, date_debut DATETIME NOT NULL --(DC2Type:datetime_immutable)
+            , date_fin DATETIME NOT NULL --(DC2Type:datetime_immutable)
             , CONSTRAINT FK_42C84955B11E4946 FOREIGN KEY (salles_id) REFERENCES salle (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_42C8495567B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
         SQL);
         $this->addSql(<<<'SQL'
@@ -38,7 +38,7 @@ final class Version20250617141532 extends AbstractMigration
             CREATE INDEX IDX_42C8495567B3B43D ON reservation (users_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, reserved BOOLEAN NOT NULL)
+            CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, description CLOB NOT NULL)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE salle_equipement (salle_id INTEGER NOT NULL, equipement_id INTEGER NOT NULL, PRIMARY KEY(salle_id, equipement_id), CONSTRAINT FK_D338336BDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D338336B806F0F5C FOREIGN KEY (equipement_id) REFERENCES equipement (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)

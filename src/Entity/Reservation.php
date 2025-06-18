@@ -14,10 +14,10 @@ class Reservation
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $dateDebut = null;
 
-    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $dateFin = null;
 
     #[ORM\ManyToOne(inversedBy: 'reservation')]
@@ -27,7 +27,6 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
-
 
     public function getId(): ?int
     {
@@ -42,7 +41,6 @@ class Reservation
     public function setDateDebut(\DateTimeImmutable $dateDebut): static
     {
         $this->dateDebut = $dateDebut;
-
         return $this;
     }
 
@@ -54,7 +52,6 @@ class Reservation
     public function setDateFin(\DateTimeImmutable $dateFin): static
     {
         $this->dateFin = $dateFin;
-
         return $this;
     }
 
@@ -66,7 +63,6 @@ class Reservation
     public function setSalles(?Salle $salles): static
     {
         $this->salles = $salles;
-
         return $this;
     }
 
@@ -78,9 +74,10 @@ class Reservation
     public function setUsers(?User $users): static
     {
         $this->users = $users;
-
         return $this;
     }
 
 
+
+    
 }
