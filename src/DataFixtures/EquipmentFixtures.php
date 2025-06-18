@@ -3,66 +3,64 @@
 namespace App\DataFixtures;
 
 use App\Entity\Equipement;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 
-class EquipementFixtures extends Fixture
+class EquipmentFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $nbSalles = 50; // nombre de salles à équiper
-
         $equipements = [
             // LUMIÈRE
-            ['nom' => 'Lampe', 'type' => 'Lumière', 'quantite' => 450], 
-            ['nom' => 'Bougie', 'type' => 'Lumière', 'quantite' => 150],
-            ['nom' => 'Projecteur', 'type' => 'Lumière', 'quantite' => 75],
-            ['nom' => 'Spot coloré', 'type' => 'Lumière', 'quantite' => 100],
-            ['nom' => 'Boule à facette', 'type' => 'Lumière', 'quantite' => 50],
-            ['nom' => 'Guirlande lumineuse', 'type' => 'Lumière', 'quantite' => 100],
+            ['nom' => 'Lampe', 'categorie' => 'Lumière', 'quantite' => 200],
+            ['nom' => 'Bougie', 'categorie' => 'Lumière', 'quantite' => 200],
+            ['nom' => 'Projecteur', 'categorie' => 'Lumière', 'quantite' => 100],
+            ['nom' => 'Spot coloré', 'categorie' => 'Lumière', 'quantite' => 100],
+            ['nom' => 'Boule à facette', 'categorie' => 'Lumière', 'quantite' => 50],
+            ['nom' => 'Guirlande lumineuse', 'categorie' => 'Lumière', 'quantite' => 100],
 
             // MOBILIER
-            ['nom' => 'Chaise', 'type' => 'Mobilier', 'quantite' => 1400], 
-            ['nom' => 'Table', 'type' => 'Mobilier', 'quantite' => 500], 
-            ['nom' => 'Banc', 'type' => 'Mobilier', 'quantite' => 50],
-            ['nom' => 'Tabouret', 'type' => 'Mobilier', 'quantite' => 100],
-            ['nom' => 'Estrade', 'type' => 'Mobilier', 'quantite' => 25],
-            ['nom' => 'Paravent', 'type' => 'Mobilier', 'quantite' => 25],
-            ['nom' => 'Comptoir pliant', 'type' => 'Mobilier', 'quantite' => 25],
+            ['nom' => 'Chaise', 'categorie' => 'Mobilier', 'quantite' => 250],
+            ['nom' => 'Table', 'categorie' => 'Mobilier', 'quantite' => 50],
+            ['nom' => 'Banc', 'categorie' => 'Mobilier', 'quantite' => 50],
+            ['nom' => 'Tabouret', 'categorie' => 'Mobilier', 'quantite' => 100],
+            ['nom' => 'Estrade', 'categorie' => 'Mobilier', 'quantite' => 25],
+            ['nom' => 'Paravent', 'categorie' => 'Mobilier', 'quantite' => 25],
+            ['nom' => 'Comptoir pliant', 'categorie' => 'Mobilier', 'quantite' => 25],
 
             // ÉLECTRONIQUE
-            ['nom' => 'Micro', 'type' => 'Électronique', 'quantite' => 100], // 2 par salle
-            ['nom' => 'Enceinte', 'type' => 'Électronique', 'quantite' => 100],
-            ['nom' => 'Amplificateur', 'type' => 'Électronique', 'quantite' => 50],
-            ['nom' => 'Machine à fumée', 'type' => 'Électronique', 'quantite' => 25],
-            ['nom' => 'Ordinateur', 'type' => 'Électronique', 'quantite' => 50],
-            ['nom' => 'Mixeur audio', 'type' => 'Électronique', 'quantite' => 25],
-            ['nom' => 'Console DJ', 'type' => 'Électronique', 'quantite' => 25],
+            ['nom' => 'Micro', 'categorie' => 'Électronique', 'quantite' => 100],
+            ['nom' => 'Enceinte', 'categorie' => 'Électronique', 'quantite' => 100],
+            ['nom' => 'Amplificateur', 'categorie' => 'Électronique', 'quantite' => 50],
+            ['nom' => 'Machine à fumée', 'categorie' => 'Électronique', 'quantite' => 25],
+            ['nom' => 'Ordinateur', 'categorie' => 'Électronique', 'quantite' => 50],
+            ['nom' => 'Mixeur audio', 'categorie' => 'Électronique', 'quantite' => 25],
+            ['nom' => 'Console DJ', 'categorie' => 'Électronique', 'quantite' => 25],
 
-            // ÉLECTROMÉNAGER - essentiel pour chaque salle équipée
-            ['nom' => 'Four', 'type' => 'Électroménager', 'quantite' => 50],
-            ['nom' => 'Micro-onde', 'type' => 'Électroménager', 'quantite' => 50],
-            ['nom' => 'Frigo', 'type' => 'Électroménager', 'quantite' => 50],
-            ['nom' => 'Plaque de cuisson', 'type' => 'Électroménager', 'quantite' => 40],
-            ['nom' => 'Congélateur', 'type' => 'Électroménager', 'quantite' => 40],
-            ['nom' => 'Plancha', 'type' => 'Électroménager', 'quantite' => 30],
-            ['nom' => 'Cafetière', 'type' => 'Électroménager', 'quantite' => 60],
+            // ÉLECTROMÉNAGER (1 par salle au minimum)
+            ['nom' => 'Four', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Micro-onde', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Frigo', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Plaque de cuisson', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Congélateur', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Plancha', 'categorie' => 'Électroménager', 'quantite' => 50],
+            ['nom' => 'Cafetière', 'categorie' => 'Électroménager', 'quantite' => 50],
 
-            // USTENSILES - en nombre important pour couvrir tous les usages
-            ['nom' => 'Couvert', 'type' => 'Ustensile', 'quantite' => 500],
-            ['nom' => 'Balais', 'type' => 'Ustensile', 'quantite' => 60],
-            ['nom' => 'Poubelle', 'type' => 'Ustensile', 'quantite' => 100],
-            ['nom' => 'Pelle', 'type' => 'Ustensile', 'quantite' => 50],
-            ['nom' => 'Nappe', 'type' => 'Ustensile', 'quantite' => 100],
-            ['nom' => 'Seau', 'type' => 'Ustensile', 'quantite' => 60],
-            ['nom' => 'Éponge industrielle', 'type' => 'Ustensile', 'quantite' => 100],
+            // USTENSILES (en masse pour 200+ personnes)
+            ['nom' => 'Couvert', 'categorie' => 'Ustensile', 'quantite' => 500],
+            ['nom' => 'Balais', 'categorie' => 'Ustensile', 'quantite' => 50],
+            ['nom' => 'Poubelle', 'categorie' => 'Ustensile', 'quantite' => 100],
+            ['nom' => 'Pelle', 'categorie' => 'Ustensile', 'quantite' => 50],
+            ['nom' => 'Nappe', 'categorie' => 'Ustensile', 'quantite' => 100],
+            ['nom' => 'Seau', 'categorie' => 'Ustensile', 'quantite' => 50],
+            ['nom' => 'Éponge industrielle', 'categorie' => 'Ustensile', 'quantite' => 100],
         ];
 
         foreach ($equipements as $data) {
             for ($i = 1; $i <= $data['quantite']; $i++) {
                 $equipement = new Equipement();
                 $equipement->setNom($data['nom'] . ' ' . $i);
-                $equipement->setType($data['type']);
+                $equipement->setCategorie($data['categorie']);
                 $manager->persist($equipement);
             }
         }

@@ -13,24 +13,23 @@ class Equipement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 80)]
     #[Assert\Length(min: 2, max: 80, minMessage: 'Le nom contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
-    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9- ]+$/', message: "Seuls les lettres, chiffres, espaces et tirets sont autorisés.")]
     private ?string $nom = null;
 
-    #[ORM\Column]
-    #[Assert\Length(min: 2, max: 80, minMessage: 'Le type contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
-    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
-    private ?string $type = null;
+    #[ORM\Column(length: 80)]
+    #[Assert\Length(min: 2, max: 80, minMessage: 'La catégorie contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9- ]+$/', message: "Seuls les lettres, chiffres, espaces et tirets sont autorisés.")]
+    private ?string $categorie = null;
 
     /**
      * @var Collection<int, Salle>
      */
-    #[ORM\ManyToMany(targetEntity: Salle::class, mappedBy: 'Equipement')]
+    #[ORM\ManyToMany(targetEntity: Salle::class, mappedBy: 'equipements')]
     private Collection $salles;
 
     public function __construct()
@@ -51,19 +50,17 @@ class Equipement
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
-    public function isType(): ?string
+    public function getCategorie(): ?string
     {
-        return $this->type;
+        return $this->categorie;
     }
 
-    public function setType(string $type): static
+    public function setCategorie(string $categorie): static
     {
-        $this->type = $type;
-
+        $this->categorie = $categorie;
         return $this;
     }
 
