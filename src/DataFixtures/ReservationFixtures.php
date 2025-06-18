@@ -19,7 +19,6 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
         $salles = $manager->getRepository(Salle::class)->findAll();
         $users = $manager->getRepository(User::class)->findAll();
 
-        $compteur = 0;
 
         foreach ($salles as $salle) {
             for ($i = 0; $i < 5; $i++) {
