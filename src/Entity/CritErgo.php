@@ -27,6 +27,9 @@ class CritErgo
     #[ORM\ManyToMany(targetEntity: Salle::class, mappedBy: 'critergo')]
     private Collection $salles;
 
+    #[ORM\Column(length: 80)]
+    private ?string $categorie = null;
+
     public function __construct()
     {
         $this->salles = new ArrayCollection();
@@ -72,6 +75,18 @@ class CritErgo
         if ($this->salles->removeElement($salle)) {
             $salle->removeCritergo($this);
         }
+
+        return $this;
+    }
+
+    public function getCategorie(): ?string
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(string $categorie): static
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
