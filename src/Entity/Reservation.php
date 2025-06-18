@@ -28,6 +28,9 @@ class Reservation
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
 
+    #[ORM\Column]
+    private ?bool $validation = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Reservation
     public function setUsers(?User $users): static
     {
         $this->users = $users;
+        return $this;
+    }
+
+    public function isValidation(): ?bool
+    {
+        return $this->validation;
+    }
+
+    public function setValidation(bool $validation): static
+    {
+        $this->validation = $validation;
+
         return $this;
     }
 
