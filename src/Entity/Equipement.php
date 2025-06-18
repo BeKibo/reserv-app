@@ -23,7 +23,9 @@ class Equipement
     private ?string $nom = null;
 
     #[ORM\Column]
-    private ?bool $type = null;
+    #[Assert\Length(min: 2, max: 80, minMessage: 'Le type contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
+    #[Assert\Regex(pattern: '/^[A-Za-z0-9-]+$/', message: "Seuls les lettres, chiffres et tirets sont autorisés.")]
+    private ?string $type = null;
 
     /**
      * @var Collection<int, Salle>
@@ -53,12 +55,12 @@ class Equipement
         return $this;
     }
 
-    public function isType(): ?bool
+    public function isType(): ?string
     {
         return $this->type;
     }
 
-    public function setType(bool $type): static
+    public function setType(string $type): static
     {
         $this->type = $type;
 
