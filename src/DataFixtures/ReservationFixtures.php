@@ -9,6 +9,7 @@ use App\Entity\Reservation;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class ReservationFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -30,12 +31,17 @@ class ReservationFixtures extends Fixture implements DependentFixtureInterface
                 // Génère une date de fin +1 à +3 jours après
                 $end = $start->modify('+' . $faker->numberBetween(1, 3) . ' days');
 
+
+
                 // Création de la réservation
                 $reservation = new Reservation();
                 $reservation->setSalles($salle);
                 $reservation->setUsers($faker->randomElement($users));
                 $reservation->setDateDebut($start);
                 $reservation->setDateFin($end);
+                $reservation->setValidation($faker->boolean(15));
+
+        
 
                 $manager->persist($reservation);
             }

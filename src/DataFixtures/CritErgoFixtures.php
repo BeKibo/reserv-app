@@ -62,7 +62,7 @@ class CritErgoFixtures extends Fixture implements DependentFixtureInterface
         foreach ($salles as $salle) {
             $selection = $faker->randomElements($critObjects, 5); // 5 critères aléatoires
             foreach ($selection as $crit) {
-                $salle->addCritErgo($crit);
+            $salle->addCritErgo($crit);
             }
             $manager->persist($salle);
         }

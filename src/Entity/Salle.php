@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\SalleRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Reservation;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SalleRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: SalleRepository::class)]
@@ -208,7 +209,7 @@ class Salle
     public function isReservedBetween(\DateTimeImmutable $start, \DateTimeImmutable $end): bool
     {
         foreach ($this->reservation as $res) {
-            if ($start < $res->getDateFin() && $end > $res->getDateDebut()) {
+            if ($res->isValidation() && $start < $res->getDateFin() && $end > $res->getDateDebut()) {
                 return true;
             }
         }

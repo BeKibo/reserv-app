@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250618135113 extends AbstractMigration
+final class Version20250618144112 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -29,7 +29,7 @@ final class Version20250618135113 extends AbstractMigration
         $this->addSql(<<<'SQL'
             CREATE TABLE reservation (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, salles_id INTEGER NOT NULL, users_id INTEGER NOT NULL, date_debut DATETIME NOT NULL --(DC2Type:datetime_immutable)
             , date_fin DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , CONSTRAINT FK_42C84955B11E4946 FOREIGN KEY (salles_id) REFERENCES salle (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_42C8495567B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+            , validation BOOLEAN NOT NULL, CONSTRAINT FK_42C84955B11E4946 FOREIGN KEY (salles_id) REFERENCES salle (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_42C8495567B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_42C84955B11E4946 ON reservation (salles_id)

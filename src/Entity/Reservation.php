@@ -20,6 +20,9 @@ class Reservation
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $dateFin = null;
 
+    #[ORM\Column]
+    private ?bool $validation = null;
+
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Salle $salles = null;
@@ -28,8 +31,7 @@ class Reservation
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
 
-    #[ORM\Column]
-    private ?bool $validation = null;
+
 
     public function getId(): ?int
     {
