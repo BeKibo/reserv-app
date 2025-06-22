@@ -1,0 +1,67 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Nouvelle Réservation{% endblock %}
+{% block page_title %}Nouvelle Réservation{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Créer une nouvelle réservation</h5>
+            <a href="{{ path('admin_reservation_index') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+            </a>
+        </div>
+        <div class="card-body">
+            {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            {{ form_label(form.users) }}
+                            {{ form_widget(form.users, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.users) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form_label(form.salles) }}
+                            {{ form_widget(form.salles, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.salles) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group mb-3">
+                            {{ form_label(form.dateDebut) }}
+                            {{ form_widget(form.dateDebut, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.dateDebut) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form_label(form.dateFin) }}
+                            {{ form_widget(form.dateFin, {'attr': {'class': 'form-control'}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.dateFin) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    {{ form_widget(form.validation, {'attr': {'class': 'form-check-input'}}) }}
+                    {{ form_label(form.validation, null, {'label_attr': {'class': 'form-check-label'}}) }}
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Enregistrer
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  # PHP Application with Apache
+  app:
+    image: webdevops/php-apache:8.1
+    container_name: reserv-app
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "8080:80"
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/public
+      - PHP_DISPLAY_ERRORS=1
+      - APP_ENV=dev
+    depends_on:
+      - database
+
+  # PostgreSQL Database
+  database:
+    image: postgres:16-alpine
+    container_name: reserv-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=!ChangeMe!
+    ports:
+      - "5432:5432"
+
+  # Mailpit for email testing (optional)
+  mailer:
+    image: axllent/mailpit
+    container_name: reserv-mailer
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
+
+volumes:
+  postgres_data:

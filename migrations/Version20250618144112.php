@@ -21,27 +21,25 @@ final class Version20250618144112 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql(<<<'SQL'
-            CREATE TABLE crit_ergo (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) NOT NULL, categorie VARCHAR(80) NOT NULL)
+            CREATE TABLE crit_ergo (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(80) NOT NULL, categorie VARCHAR(80) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE equipement (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) NOT NULL, categorie VARCHAR(80) NOT NULL)
+            CREATE TABLE equipement (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(80) NOT NULL, categorie VARCHAR(80) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE reservation (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, salles_id INTEGER NOT NULL, users_id INTEGER NOT NULL, date_debut DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , date_fin DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , validation BOOLEAN NOT NULL, CONSTRAINT FK_42C84955B11E4946 FOREIGN KEY (salles_id) REFERENCES salle (id) NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_42C8495567B3B43D FOREIGN KEY (users_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+            CREATE TABLE `user` (id INT AUTO_INCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, nom VARCHAR(80) NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE INDEX IDX_42C84955B11E4946 ON reservation (salles_id)
+            CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON `user` (email)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE INDEX IDX_42C8495567B3B43D ON reservation (users_id)
+            CREATE TABLE salle (id INT AUTO_INCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INT NOT NULL, image VARCHAR(255) NOT NULL, description LONGTEXT NOT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, description CLOB NOT NULL)
+            CREATE TABLE reservation (id INT AUTO_INCREMENT NOT NULL, salles_id INT NOT NULL, users_id INT NOT NULL, date_debut DATETIME NOT NULL, date_fin DATETIME NOT NULL, validation BOOLEAN NOT NULL, PRIMARY KEY(id), INDEX IDX_42C84955B11E4946 (salles_id), INDEX IDX_42C8495567B3B43D (users_id), CONSTRAINT FK_42C84955B11E4946 FOREIGN KEY (salles_id) REFERENCES salle (id), CONSTRAINT FK_42C8495567B3B43D FOREIGN KEY (users_id) REFERENCES `user` (id))
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE salle_equipement (salle_id INTEGER NOT NULL, equipement_id INTEGER NOT NULL, PRIMARY KEY(salle_id, equipement_id), CONSTRAINT FK_D338336BDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D338336B806F0F5C FOREIGN KEY (equipement_id) REFERENCES equipement (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)
+            CREATE TABLE salle_equipement (salle_id INT NOT NULL, equipement_id INT NOT NULL, PRIMARY KEY(salle_id, equipement_id), INDEX IDX_D338336BDC304035 (salle_id), INDEX IDX_D338336B806F0F5C (equipement_id), CONSTRAINT FK_D338336BDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE, CONSTRAINT FK_D338336B806F0F5C FOREIGN KEY (equipement_id) REFERENCES equipement (id) ON DELETE CASCADE)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_D338336BDC304035 ON salle_equipement (salle_id)
@@ -50,7 +48,7 @@ final class Version20250618144112 extends AbstractMigration
             CREATE INDEX IDX_D338336B806F0F5C ON salle_equipement (equipement_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE salle_crit_ergo (salle_id INTEGER NOT NULL, crit_ergo_id INTEGER NOT NULL, PRIMARY KEY(salle_id, crit_ergo_id), CONSTRAINT FK_12D4772FDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_12D4772FC0DF500E FOREIGN KEY (crit_ergo_id) REFERENCES crit_ergo (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)
+            CREATE TABLE salle_crit_ergo (salle_id INT NOT NULL, crit_ergo_id INT NOT NULL, PRIMARY KEY(salle_id, crit_ergo_id), INDEX IDX_12D4772FDC304035 (salle_id), INDEX IDX_12D4772FC0DF500E (crit_ergo_id), CONSTRAINT FK_12D4772FDC304035 FOREIGN KEY (salle_id) REFERENCES salle (id) ON DELETE CASCADE, CONSTRAINT FK_12D4772FC0DF500E FOREIGN KEY (crit_ergo_id) REFERENCES crit_ergo (id) ON DELETE CASCADE)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_12D4772FDC304035 ON salle_crit_ergo (salle_id)
@@ -59,17 +57,7 @@ final class Version20250618144112 extends AbstractMigration
             CREATE INDEX IDX_12D4772FC0DF500E ON salle_crit_ergo (crit_ergo_id)
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE "user" (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
-            , password VARCHAR(255) NOT NULL, nom VARCHAR(80) NOT NULL)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE UNIQUE INDEX UNIQ_IDENTIFIER_EMAIL ON "user" (email)
-        SQL);
-        $this->addSql(<<<'SQL'
-            CREATE TABLE messenger_messages (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, body CLOB NOT NULL, headers CLOB NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , available_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
-            , delivered_at DATETIME DEFAULT NULL --(DC2Type:datetime_immutable)
-            )
+            CREATE TABLE messenger_messages (id INT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL, available_at DATETIME NOT NULL, delivered_at DATETIME DEFAULT NULL, PRIMARY KEY(id))
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)
@@ -104,7 +92,7 @@ final class Version20250618144112 extends AbstractMigration
             DROP TABLE salle_crit_ergo
         SQL);
         $this->addSql(<<<'SQL'
-            DROP TABLE "user"
+            DROP TABLE `user`
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE messenger_messages
