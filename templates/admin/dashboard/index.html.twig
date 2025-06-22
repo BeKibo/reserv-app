@@ -1,0 +1,149 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Dashboard - Administration{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block body %}
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h5 class="card-title">Réservations Totales</h5>
+                <p class="card-text display-4">{{ stats.reservations.total }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h5 class="card-title">Réservations Confirmées</h5>
+                <p class="card-text display-4">{{ stats.reservations.confirmed }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h5 class="card-title">Réservations en Attente</h5>
+                <p class="card-text display-4">{{ stats.reservations.pending }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h5 class="card-title">Réservations à Venir</h5>
+                <p class="card-text display-4">{{ stats.reservations.upcoming }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Statistiques Générales</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-door-open fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Salles</h6>
+                                <h4>{{ stats.rooms }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-users fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Utilisateurs</h6>
+                                <h4>{{ stats.users }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-calendar-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Réservations ce mois</h6>
+                                <h4>{{ stats.reservations.thisMonth }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="d-flex align-items-center">
+                            <div class="me-3">
+                                <i class="fas fa-percentage fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-0">Taux de confirmation</h6>
+                                <h4>
+                                    {% if stats.reservations.total > 0 %}
+                                        {{ (stats.reservations.confirmed / stats.reservations.total * 100)|round }}%
+                                    {% else %}
+                                        0%
+                                    {% endif %}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="card-title mb-0">Réservations Récentes</h5>
+                <a href="{{ path('admin_reservation_index') }}" class="btn btn-sm btn-primary">Voir toutes</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Utilisateur</th>
+                                <th>Salle</th>
+                                <th>Date</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in recent_reservations %}
+                                <tr class="{{ reservation.validation ? 'reservation-confirmed' : 'reservation-pending' }}">
+                                    <td>{{ reservation.users.nom }}</td>
+                                    <td>{{ reservation.salles.nom }}</td>
+                                    <td>{{ reservation.dateDebut|date('d/m/Y H:i') }}</td>
+                                    <td>
+                                        {% if reservation.validation %}
+                                            <span class="badge bg-success">Confirmée</span>
+                                        {% else %}
+                                            <span class="badge bg-warning">En attente</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="4" class="text-center">Aucune réservation trouvée</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

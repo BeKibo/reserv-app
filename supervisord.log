@@ -1,0 +1,240 @@
+2025-06-21 19:31:20,074 CRIT Supervisor is running as root.  Privileges were not dropped because no user is specified in the config file.  If you intend to run as root, you can set user=root in the config file to avoid this message.
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/cron.conf" during parsing
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/dnsmasq.conf" during parsing
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/nginx.conf" during parsing
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/php-fpm.conf" during parsing
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/postfix.conf" during parsing
+2025-06-21 19:31:20,074 INFO Included extra file "/opt/docker/etc/supervisor.d/ssh.conf" during parsing
+2025-06-21 19:31:20,075 INFO Included extra file "/opt/docker/etc/supervisor.d/syslog.conf" during parsing
+2025-06-21 19:31:20,077 INFO RPC interface 'supervisor' initialized
+2025-06-21 19:31:20,078 INFO supervisord started with pid 1
+2025-06-21 19:31:21,086 INFO spawned: 'syslogd' with pid 35
+2025-06-21 19:31:21,089 INFO spawned: 'nginxd' with pid 36
+2025-06-21 19:31:21,091 INFO spawned: 'php-fpmd' with pid 37
+2025-06-21 19:31:21,093 INFO spawned: 'crond' with pid 38
+2025-06-21 19:31:21,122 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,123 INFO success: php-fpmd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,124 INFO success: crond entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,193 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:21,199 INFO spawned: 'nginxd' with pid 53
+2025-06-21 19:31:21,217 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,233 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:21,245 INFO spawned: 'nginxd' with pid 56
+2025-06-21 19:31:21,253 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,278 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:21,278 INFO spawned: 'nginxd' with pid 59
+2025-06-21 19:31:21,295 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:21,309 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:22,312 INFO success: syslogd entered RUNNING state, process has stayed up for > than 1 seconds (startsecs)
+2025-06-21 19:31:22,316 INFO spawned: 'nginxd' with pid 60
+2025-06-21 19:31:22,355 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:23,380 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:24,389 INFO spawned: 'nginxd' with pid 61
+2025-06-21 19:31:24,426 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:24,446 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:25,453 INFO spawned: 'nginxd' with pid 62
+2025-06-21 19:31:25,487 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:25,509 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:26,515 INFO spawned: 'nginxd' with pid 63
+2025-06-21 19:31:26,550 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:26,572 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:27,578 INFO spawned: 'nginxd' with pid 64
+2025-06-21 19:31:27,616 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:27,635 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:28,641 INFO spawned: 'nginxd' with pid 65
+2025-06-21 19:31:28,675 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:28,697 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:29,708 INFO spawned: 'nginxd' with pid 66
+2025-06-21 19:31:29,744 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:29,766 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:30,773 INFO spawned: 'nginxd' with pid 67
+2025-06-21 19:31:30,810 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:30,830 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:31,837 INFO spawned: 'nginxd' with pid 68
+2025-06-21 19:31:31,873 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:31,893 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:32,898 INFO spawned: 'nginxd' with pid 69
+2025-06-21 19:31:32,935 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:32,954 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:33,961 INFO spawned: 'nginxd' with pid 70
+2025-06-21 19:31:33,998 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:34,019 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:35,026 INFO spawned: 'nginxd' with pid 71
+2025-06-21 19:31:35,049 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:35,067 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:35,068 INFO spawned: 'nginxd' with pid 72
+2025-06-21 19:31:35,086 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:35,102 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:36,107 INFO spawned: 'nginxd' with pid 73
+2025-06-21 19:31:36,133 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:36,150 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:37,153 INFO spawned: 'nginxd' with pid 74
+2025-06-21 19:31:37,174 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:37,190 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:38,195 INFO spawned: 'nginxd' with pid 75
+2025-06-21 19:31:38,223 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:38,242 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:38,243 INFO spawned: 'nginxd' with pid 76
+2025-06-21 19:31:38,263 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:38,281 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:39,287 INFO spawned: 'nginxd' with pid 77
+2025-06-21 19:31:39,309 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:39,325 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:40,332 INFO spawned: 'nginxd' with pid 78
+2025-06-21 19:31:40,368 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:40,388 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:41,394 INFO spawned: 'nginxd' with pid 79
+2025-06-21 19:31:41,431 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:41,452 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:41,453 INFO spawned: 'nginxd' with pid 80
+2025-06-21 19:31:41,473 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:42,493 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:43,499 INFO spawned: 'nginxd' with pid 81
+2025-06-21 19:31:43,529 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:43,551 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:44,553 INFO spawned: 'nginxd' with pid 82
+2025-06-21 19:31:44,579 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:44,598 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:45,605 INFO spawned: 'nginxd' with pid 83
+2025-06-21 19:31:45,643 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:45,665 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:46,670 INFO spawned: 'nginxd' with pid 84
+2025-06-21 19:31:46,702 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:46,725 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:47,730 INFO spawned: 'nginxd' with pid 85
+2025-06-21 19:31:47,758 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:47,779 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:48,786 INFO spawned: 'nginxd' with pid 86
+2025-06-21 19:31:48,824 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:48,845 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:48,846 INFO spawned: 'nginxd' with pid 87
+2025-06-21 19:31:48,867 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:49,886 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:50,893 INFO spawned: 'nginxd' with pid 88
+2025-06-21 19:31:50,930 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:50,951 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:51,958 INFO spawned: 'nginxd' with pid 89
+2025-06-21 19:31:51,994 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:52,016 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:53,023 INFO spawned: 'nginxd' with pid 90
+2025-06-21 19:31:53,058 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:53,079 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:54,085 INFO spawned: 'nginxd' with pid 91
+2025-06-21 19:31:54,121 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:54,141 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:55,147 INFO spawned: 'nginxd' with pid 92
+2025-06-21 19:31:55,183 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:55,206 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:56,216 INFO spawned: 'nginxd' with pid 93
+2025-06-21 19:31:56,253 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:56,273 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:57,278 INFO spawned: 'nginxd' with pid 94
+2025-06-21 19:31:57,313 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:57,334 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:58,343 INFO spawned: 'nginxd' with pid 95
+2025-06-21 19:31:58,380 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:58,400 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:58,401 INFO spawned: 'nginxd' with pid 96
+2025-06-21 19:31:58,421 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:58,437 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:31:59,445 INFO spawned: 'nginxd' with pid 97
+2025-06-21 19:31:59,482 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:31:59,502 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:00,508 INFO spawned: 'nginxd' with pid 98
+2025-06-21 19:32:00,545 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:00,565 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:01,570 INFO spawned: 'nginxd' with pid 99
+2025-06-21 19:32:01,607 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:01,627 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:02,634 INFO spawned: 'nginxd' with pid 100
+2025-06-21 19:32:02,672 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:02,691 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:03,695 INFO spawned: 'nginxd' with pid 101
+2025-06-21 19:32:03,723 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:03,744 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:04,748 INFO spawned: 'nginxd' with pid 102
+2025-06-21 19:32:04,783 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:04,805 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:05,809 INFO spawned: 'nginxd' with pid 103
+2025-06-21 19:32:05,837 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:05,857 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:06,863 INFO spawned: 'nginxd' with pid 104
+2025-06-21 19:32:06,899 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:06,919 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:07,925 INFO spawned: 'nginxd' with pid 105
+2025-06-21 19:32:07,957 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:07,980 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:08,984 INFO spawned: 'nginxd' with pid 106
+2025-06-21 19:32:09,011 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:09,031 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:10,038 INFO spawned: 'nginxd' with pid 107
+2025-06-21 19:32:10,076 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:10,096 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:11,103 INFO spawned: 'nginxd' with pid 108
+2025-06-21 19:32:11,138 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:11,159 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:12,169 INFO spawned: 'nginxd' with pid 109
+2025-06-21 19:32:12,204 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:12,225 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:13,230 INFO spawned: 'nginxd' with pid 110
+2025-06-21 19:32:13,268 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:13,287 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:14,294 INFO spawned: 'nginxd' with pid 111
+2025-06-21 19:32:14,330 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:14,351 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:15,358 INFO spawned: 'nginxd' with pid 112
+2025-06-21 19:32:15,395 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:15,448 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:16,454 INFO spawned: 'nginxd' with pid 113
+2025-06-21 19:32:16,491 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:16,511 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:17,518 INFO spawned: 'nginxd' with pid 114
+2025-06-21 19:32:17,554 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:17,575 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:18,581 INFO spawned: 'nginxd' with pid 115
+2025-06-21 19:32:18,612 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:18,632 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:19,639 INFO spawned: 'nginxd' with pid 116
+2025-06-21 19:32:19,672 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:20,694 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:21,702 INFO spawned: 'nginxd' with pid 117
+2025-06-21 19:32:21,740 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:21,763 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:22,771 INFO spawned: 'nginxd' with pid 118
+2025-06-21 19:32:22,806 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:22,827 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:23,828 INFO spawned: 'nginxd' with pid 119
+2025-06-21 19:32:23,848 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:23,863 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:24,870 INFO spawned: 'nginxd' with pid 120
+2025-06-21 19:32:24,906 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:24,926 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:25,933 INFO spawned: 'nginxd' with pid 121
+2025-06-21 19:32:25,968 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:25,988 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:26,994 INFO spawned: 'nginxd' with pid 122
+2025-06-21 19:32:27,029 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:27,050 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:28,058 INFO spawned: 'nginxd' with pid 123
+2025-06-21 19:32:28,094 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:28,115 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:29,121 INFO spawned: 'nginxd' with pid 124
+2025-06-21 19:32:29,158 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:29,178 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:30,186 INFO spawned: 'nginxd' with pid 125
+2025-06-21 19:32:30,223 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:30,244 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:31,250 INFO spawned: 'nginxd' with pid 126
+2025-06-21 19:32:31,287 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:31,306 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:32,313 INFO spawned: 'nginxd' with pid 127
+2025-06-21 19:32:32,345 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:32,367 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:33,373 INFO spawned: 'nginxd' with pid 128
+2025-06-21 19:32:33,375 WARN received SIGQUIT indicating exit request
+2025-06-21 19:32:33,376 INFO waiting for syslogd, nginxd, php-fpmd, crond to die
+2025-06-21 19:32:33,407 INFO success: nginxd entered RUNNING state, process has stayed up for > than 0 seconds (startsecs)
+2025-06-21 19:32:33,428 WARN stopped: crond (terminated by SIGTERM)
+2025-06-21 19:32:33,429 WARN exited: nginxd (exit status 1; not expected)
+2025-06-21 19:32:33,443 INFO stopped: php-fpmd (exit status 0)
+2025-06-21 19:32:35,567 INFO stopped: syslogd (exit status 0)

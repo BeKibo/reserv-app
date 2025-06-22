@@ -1,0 +1,150 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Détails de la Réservation{% endblock %}
+{% block page_title %}Détails de la Réservation{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Détails de la réservation #{{ reservation.id }}</h5>
+            <div>
+                <a href="{{ path('admin_reservation_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+                <a href="{{ path('admin_reservation_edit', {'id': reservation.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Modifier
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Informations générales</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ reservation.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Statut</th>
+                                        <td>
+                                            {% if reservation.validation %}
+                                                <span class="badge bg-success">Confirmée</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">En attente</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date de début</th>
+                                        <td>{{ reservation.dateDebut|date('d/m/Y H:i') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date de fin</th>
+                                        <td>{{ reservation.dateFin|date('d/m/Y H:i') }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Durée</th>
+                                        <td>
+                                            {% set duration = date(reservation.dateFin).diff(date(reservation.dateDebut)) %}
+                                            {% set hours = duration.h + (duration.days * 24) %}
+                                            {% set minutes = duration.i %}
+                                            {{ hours }}h{{ minutes > 0 ? ' ' ~ minutes ~ 'min' : '' }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Utilisateur</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ reservation.users.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{ reservation.users.email }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Salle</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ reservation.salles.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lieu</th>
+                                        <td>{{ reservation.salles.lieu }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Capacité</th>
+                                        <td>{{ reservation.salles.capacite }} personnes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                {% if not reservation.validation %}
+                    <a href="{{ path('admin_reservation_validate', {'id': reservation.id}) }}" class="btn btn-success" onclick="return confirm('Êtes-vous sûr de vouloir valider cette réservation?')">
+                        <i class="fas fa-check me-1"></i> Valider la réservation
+                    </a>
+                {% else %}
+                    <div></div>
+                {% endif %}
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash me-1"></i> Supprimer
+                </button>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer cette réservation ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <form method="post" action="{{ path('admin_reservation_delete', {'id': reservation.id}) }}">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ reservation.id) }}">
+                                <button type="submit" class="btn btn-danger">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

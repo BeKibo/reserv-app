@@ -1,5 +1,31 @@
 
 services:
+  # PHP Application with Apache
+  app:
+    image: php:8.1-apache
+    container_name: reserv-app
+    working_dir: /var/www/html
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      - APP_ENV=dev
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_MAX_EXECUTION_TIME=300
+      - PHP_POST_MAX_SIZE=100M
+      - PHP_UPLOAD_MAX_FILESIZE=100M
+    command: >
+      bash -c "apt-get update && apt-get install -y libicu-dev libzip-dev git unzip libpq-dev &&
+      docker-php-ext-install pdo pdo_pgsql intl zip &&
+      a2enmod rewrite &&
+      sed -i 's#DocumentRoot /var/www/html#DocumentRoot /var/www/html/public#g' /etc/apache2/sites-available/000-default.conf &&
+      chmod +x /var/www/html/docker-entrypoint.sh &&
+      /var/www/html/docker-entrypoint.sh apache2-foreground"
+    depends_on:
+      database:
+        condition: service_healthy
+
 ###> doctrine/doctrine-bundle ###
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine

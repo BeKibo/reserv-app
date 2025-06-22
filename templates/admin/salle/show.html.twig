@@ -1,0 +1,153 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Détails de la Salle{% endblock %}
+{% block page_title %}Détails de la Salle{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Détails de la salle #{{ salle.id }}</h5>
+            <div>
+                <a href="{{ path('admin_salle_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+                <a href="{{ path('admin_salle_edit', {'id': salle.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Modifier
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Informations générales</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ salle.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ salle.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Lieu</th>
+                                        <td>{{ salle.lieu }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Capacité</th>
+                                        <td>{{ salle.capacite }} personnes</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Description</h6>
+                        </div>
+                        <div class="card-body">
+                            <p>{{ salle.description }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Image</h6>
+                        </div>
+                        <div class="card-body text-center">
+                            <img src="{{ salle.image }}" alt="{{ salle.nom }}" class="img-fluid" style="max-height: 200px;">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Équipements ({{ salle.Equipement|length }})</h6>
+                                </div>
+                                <div class="card-body">
+                                    {% if salle.Equipement|length > 0 %}
+                                        <ul class="list-group">
+                                            {% for equipement in salle.Equipement %}
+                                                <li class="list-group-item">{{ equipement.nom }} <span class="badge bg-secondary">{{ equipement.categorie }}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="text-muted">Aucun équipement associé</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Critères Ergonomiques ({{ salle.critergo|length }})</h6>
+                                </div>
+                                <div class="card-body">
+                                    {% if salle.critergo|length > 0 %}
+                                        <ul class="list-group">
+                                            {% for critere in salle.critergo %}
+                                                <li class="list-group-item">{{ critere.nom }} <span class="badge bg-secondary">{{ critere.categorie }}</span></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <p class="text-muted">Aucun critère ergonomique associé</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <div></div>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash me-1"></i> Supprimer
+                </button>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer cette salle ?
+                            {% if not salle.reservation.empty %}
+                                <div class="alert alert-warning mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Cette salle a des réservations associées. La suppression est impossible.
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            {% if salle.reservation.empty %}
+                                <form method="post" action="{{ path('admin_salle_delete', {'id': salle.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ salle.id) }}">
+                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn btn-danger" disabled>Supprimer</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
