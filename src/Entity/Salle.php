@@ -51,7 +51,7 @@ class Salle
      * @var Collection<int, Equipement>
      */
     #[ORM\ManyToMany(targetEntity: Equipement::class, inversedBy: 'salles')]
-    private Collection $Equipement;
+    private Collection $equipement;
 
     /**
      * @var Collection<int, CritErgo>

@@ -1,20 +1,59 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SalleController!{% endblock %}
+{% block title %}Recherche de salles{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+<div class="container my-4">
+    <h1 class="mb-4">🔍 Filtrer les salles disponibles</h1>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <div class="card p-4 shadow-sm mb-5">
+        {{ form_start(form) }}
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_row(form.nom) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.capaciteMin) }}
+                </div>
+            </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/Users/bekibo/Documents/reserv-app/src/Controller/SalleController.php</code></li>
-        <li>Your template at <code>/Users/bekibo/Documents/reserv-app/templates/salle/index.html.twig</code></li>
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    {{ form_row(form.lieu) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.dateDebut) }}
+                </div>
+                <div class="col-md-3">
+                    {{ form_row(form.dateFin) }}
+                </div>
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.critergos) }}
+            </div>
+
+            <div class="mb-3">
+                {{ form_row(form.equipements) }}
+            </div>
+
+            <div class="text-end">
+                <button class="btn btn-success">Filtrer les résultats</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+
+    <h2 class="mb-3">Résultats :</h2>
+    <ul class="list-group">
+        {% for salle in salles %}
+            <li class="list-group-item">
+                <strong>{{ salle.nom }}</strong> – 
+                <span>Lieu : {{ salle.lieu }}</span> – 
+                <span>Capacité : {{ salle.capacite }}</span>
+            </li>
+        {% else %}
+            <div class="alert alert-warning">Aucune salle disponible ne correspond à vos critères.</div>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}
