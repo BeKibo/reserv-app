@@ -94,7 +94,15 @@ chmod +x start.sh docker-entrypoint.sh
 
 ##### Pour les utilisateurs Windows:
 
-3. Option 1 - Utiliser PowerShell:
+3. Option 1 (recommandée) - Utiliser le fichier batch:
+
+```cmd
+start.bat
+```
+
+   Ce fichier batch est spécialement conçu pour Windows et lance automatiquement le script PowerShell avec les paramètres appropriés.
+
+3. Option 2 - Utiliser PowerShell directement:
 
 ```powershell
 .\start.ps1
@@ -102,17 +110,19 @@ chmod +x start.sh docker-entrypoint.sh
 
    Note: Un script PowerShell équivalent pour `docker-entrypoint.sh` est également disponible (`docker-entrypoint.ps1`). Ce script est utilisé à l'intérieur du conteneur Docker et ne nécessite généralement pas d'être exécuté manuellement.
 
-3. Option 2 - Utiliser Git Bash:
+3. Option 3 - Utiliser Git Bash:
 
 ```bash
 ./start.sh
 ```
 
-3. Option 3 - Utiliser WSL (Windows Subsystem for Linux):
+3. Option 4 - Utiliser WSL (Windows Subsystem for Linux):
 
 ```bash
 ./start.sh
 ```
+
+> **Note pour les utilisateurs Windows**: Cette application a été spécialement optimisée pour fonctionner sur Windows. Les scripts et la configuration Docker ont été adaptés pour éviter les problèmes courants rencontrés sur Windows, notamment les problèmes de montage de volumes et de génération de fichiers d'autoload.
 
 #### Pour tous les utilisateurs - Lancement manuel:
 
@@ -137,6 +147,8 @@ docker compose up -d
 docker compose logs -f app
 ```
 
+   Note: Les logs de l'application incluent maintenant des horodatages et des messages plus détaillés pour faciliter le débogage.
+
 8. Pour arrêter l'application:
 
 ```bash
@@ -150,23 +162,6 @@ docker compose down
    ```
 
 ### Résolution des problèmes courants
-
-#### Problèmes avec Docker Compose
-
-Si vous rencontrez des avertissements concernant l'attribut `version` obsolète dans docker-compose.yml, ne vous inquiétez pas. Cet attribut a été supprimé car il n'est plus nécessaire dans les versions récentes de Docker Compose.
-
-Si vous rencontrez des erreurs indiquant que tous les conteneurs ne sont pas en cours d'exécution, les scripts de démarrage ont été améliorés pour vérifier chaque conteneur individuellement et fournir des messages d'erreur plus spécifiques. Vérifiez les logs du conteneur spécifique mentionné dans le message d'erreur :
-
-```bash
-# Pour voir les logs du conteneur app
-docker compose logs app
-
-# Pour voir les logs du conteneur database
-docker compose logs database
-
-# Pour voir les logs du conteneur mailer
-docker compose logs mailer
-```
 
 #### Problèmes spécifiques à Windows
 
@@ -223,10 +218,14 @@ Si vous rencontrez des problèmes lors de l'exécution de l'application sur Wind
      docker compose up -d
      ```
 
-2. **Problèmes de fins de ligne** : Si les scripts ne s'exécutent pas correctement, vérifiez que les fins de ligne sont au format Unix (LF) :
+2. **Problèmes de fins de ligne et de syntaxe de script** : Si les scripts ne s'exécutent pas correctement ou si vous voyez des erreurs comme `: not found | /app/docker-entrypoint.sh: 9: }`, vérifiez les points suivants :
 
-   - Configurez Git : `git config --global core.autocrlf input`
-   - Utilisez un éditeur de texte qui peut convertir les fins de ligne (VS Code, Notepad++, etc.)
+   - Assurez-vous que les fins de ligne sont au format Unix (LF) et non Windows (CRLF) :
+     - Configurez Git : `git config --global core.autocrlf input`
+     - Utilisez un éditeur de texte qui peut convertir les fins de ligne (VS Code, Notepad++, etc.)
+   - Si vous modifiez les scripts shell, utilisez une syntaxe compatible avec les shells POSIX minimaux :
+     - Préférez les définitions de fonctions sur une seule ligne : `ma_fonction() { commande; }`
+     - Évitez les constructions bash avancées qui pourraient ne pas être supportées par `/bin/sh`
 
 3. **Problèmes de montage de volumes** : Si les fichiers ne sont pas correctement montés dans le conteneur :
 
@@ -238,6 +237,46 @@ Si vous rencontrez des problèmes lors de l'exécution de l'application sur Wind
 
    - Assurez-vous que WSL 2 est utilisé comme backend pour Docker Desktop
    - Limitez le nombre de fichiers montés en utilisant des volumes nommés pour les répertoires volumineux
+
+#### Problèmes avec Docker Compose
+
+Si vous rencontrez des avertissements concernant l'attribut `version` obsolète dans docker-compose.yml, ne vous inquiétez pas. Cet attribut a été supprimé car il n'est plus nécessaire dans les versions récentes de Docker Compose.
+
+Si vous rencontrez des erreurs indiquant que tous les conteneurs ne sont pas en cours d'exécution, les scripts de démarrage ont été améliorés pour vérifier chaque conteneur individuellement et fournir des messages d'erreur plus spécifiques. Vérifiez les logs du conteneur spécifique mentionné dans le message d'erreur :
+
+```bash
+# Pour voir les logs du conteneur app
+docker compose logs app
+
+# Pour voir les logs du conteneur database
+docker compose logs database
+
+# Pour voir les logs du conteneur mailer
+docker compose logs mailer
+```
+
+Si le conteneur app ne montre pas de logs ou semble ne pas démarrer correctement, essayez les solutions suivantes :
+
+1. Redémarrez les conteneurs avec la commande :
+   ```bash
+   docker compose down && docker compose up -d
+   ```
+
+2. Vérifiez les logs en temps réel pour voir ce qui se passe pendant le démarrage :
+   ```bash
+   docker compose logs -f app
+   ```
+
+3. Assurez-vous que le script d'entrée est exécutable :
+   ```bash
+   chmod +x docker-entrypoint.sh
+   ```
+
+4. Si le problème persiste, essayez de reconstruire l'image :
+   ```bash
+   docker compose build --no-cache app
+   docker compose up -d
+   ```
 
 #### Erreur de classe Security non trouvée
 

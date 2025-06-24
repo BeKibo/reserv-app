@@ -15,13 +15,15 @@ services:
       - PHP_DISPLAY_ERRORS=1
       - APP_ENV=dev
       - COMPOSER_ALLOW_SUPERUSER=1  # Allow Composer to run as root
-    # Add a command to ensure the autoload_runtime.php file is generated
+    # Add a command to ensure the entrypoint script is executed correctly and logs are captured
     command: >
       /bin/sh -c "
         # Ensure vendor directory exists
         mkdir -p /app/vendor &&
-        # Run the entrypoint script
-        /bin/sh /app/docker-entrypoint.sh apache2-foreground
+        # Make sure the entrypoint script is executable
+        chmod +x /app/docker-entrypoint.sh &&
+        # Run the entrypoint script with output redirection to ensure logs are captured
+        /bin/sh /app/docker-entrypoint.sh apache2-foreground 2>&1
       "
     depends_on:
       - database
