@@ -67,7 +67,7 @@ class Salle
 
     public function __construct()
     {
-        $this->Equipement = new ArrayCollection();
+        $this->equipement = new ArrayCollection();
         $this->critergo = new ArrayCollection();
         $this->reservation = new ArrayCollection();
     }
@@ -126,13 +126,13 @@ class Salle
      */
     public function getEquipement(): Collection
     {
-        return $this->Equipement;
+        return $this->equipement;
     }
 
     public function addEquipement(Equipement $equipement): static
     {
-        if (!$this->Equipement->contains($equipement)) {
-            $this->Equipement->add($equipement);
+        if (!$this->equipement->contains($equipement)) {
+            $this->equipement->add($equipement);
         }
 
         return $this;
@@ -140,7 +140,7 @@ class Salle
 
     public function removeEquipement(Equipement $equipement): static
     {
-        $this->Equipement->removeElement($equipement);
+        $this->equipement->removeElement($equipement);
         return $this;
     }
 

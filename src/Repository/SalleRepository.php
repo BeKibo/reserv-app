@@ -51,11 +51,11 @@ class SalleRepository extends ServiceEntityRepository
 
         if ($data->dateDebut && $data->dateFin) {
             $qb->andWhere('s.id NOT IN (
-                SELECT IDENTITY(r.salle) FROM App\Entity\Reservation r
+                SELECT IDENTITY(r.salles) FROM App\Entity\Reservation r
                 WHERE (
-                    (:debut BETWEEN r.startDate AND r.endDate)
-                    OR (:fin BETWEEN r.startDate AND r.endDate)
-                    OR (r.startDate BETWEEN :debut AND :fin)
+                    (:debut BETWEEN r.dateDebut AND r.dateFin)
+                    OR (:fin BETWEEN r.dateDebut AND r.dateFin)
+                    OR (r.dateDebut BETWEEN :debut AND :fin)
                 )
             )')
                 ->setParameter('debut', $data->dateDebut)
