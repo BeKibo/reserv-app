@@ -3,57 +3,104 @@
 {% block title %}Recherche de salles{% endblock %}
 
 {% block body %}
-<div class="container my-4">
-    <h1 class="mb-4">🔍 Filtrer les salles disponibles</h1>
+<div class="container mx-auto px-4 py-6">
+    <h1 class="text-xl font-bold mb-6">Filtrer les salles disponibles</h1>
 
-    <div class="card p-4 shadow-sm mb-5">
+    <div class="bg-white p-6 rounded shadow-sm mb-8 border border-gray-200">
         {{ form_start(form) }}
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    {{ form_row(form.nom) }}
-                </div>
-                <div class="col-md-6">
-                    {{ form_row(form.capaciteMin) }}
-                </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+            <div>
+                <label for="{{ form.nom.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.nom.vars.label }}
+                </label>
+                {{ form_widget(form.nom, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500' } }) }}
             </div>
 
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    {{ form_row(form.lieu) }}
-                </div>
-                <div class="col-md-3">
-                    {{ form_row(form.dateDebut) }}
-                </div>
-                <div class="col-md-3">
-                    {{ form_row(form.dateFin) }}
-                </div>
+            <div>
+                <label for="{{ form.capaciteMin.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.capaciteMin.vars.label }}
+                </label>
+                {{ form_widget(form.capaciteMin, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500' } }) }}
             </div>
 
-            <div class="mb-3">
-                {{ form_row(form.critergos) }}
+            <div>
+                <label for="{{ form.lieu.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.lieu.vars.label }}
+                </label>
+                {{ form_widget(form.lieu, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500' } }) }}
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="{{ form.dateDebut.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.dateDebut.vars.label }}
+                </label>
+                {{ form_widget(form.dateDebut, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm' } }) }}
             </div>
 
-            <div class="mb-3">
-                {{ form_row(form.equipements) }}
+            <div>
+                <label for="{{ form.dateFin.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.dateFin.vars.label }}
+                </label>
+                {{ form_widget(form.dateFin, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm' } }) }}
             </div>
+        </div>
 
-            <div class="text-end">
-                <button class="btn btn-success">Filtrer les résultats</button>
+        <div class="mb-6">
+            <label class="block text-sm font-semibold mb-2">Critères ergonomiques</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                {% for child in form.critergos %}
+                    <label class="flex items-center gap-2 text-sm text-gray-700">
+                        {{ form_widget(child) }}
+                        {{ form_label(child, null, { label_attr: { class: 'mb-0' } }) }}
+                    </label>
+                {% endfor %}
             </div>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-sm font-semibold mb-2">Équipements</label>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {% for categorie, champs in grouped_equipements %}
+                    <details class="bg-gray-100 rounded shadow-sm">
+                        <summary class="cursor-pointer px-4 py-2 font-semibold">{{ categorie }}</summary>
+                        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            {% for champ in champs %}
+                                <label class="flex items-center gap-2 text-sm">
+                                    {{ form_widget(champ) }}
+                                    {{ form_label(champ, null, { label_attr: { class: 'mb-0' } }) }}
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </details>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="text-end mt-6">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Filtrer les résultats</button>
+        </div>
+
         {{ form_end(form) }}
     </div>
 
-    <h2 class="mb-3">Résultats :</h2>
-    <ul class="list-group">
+    <h2 class="text-lg font-semibold mb-4">Résultats :</h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {% for salle in salles %}
-            <li class="list-group-item">
-                <strong>{{ salle.nom }}</strong> – 
-                <span>Lieu : {{ salle.lieu }}</span> – 
-                <span>Capacité : {{ salle.capacite }}</span>
-            </li>
+            <div class="bg-white shadow-md rounded overflow-hidden">
+                <img src="{{ asset(salle.image) }}" alt="{{ salle.nom }}" class="w-full h-40 object-cover">
+                <div class="p-4 text-center text-sm">
+                    <p class="font-bold">{{ salle.nom }}</p>
+                    <p class="text-gray-600 text-xs truncate">{{ salle.lieu }}</p>
+                    <p class="text-gray-500 text-xs">Capacité : {{ salle.capacite }}</p>
+                </div>
+            </div>
         {% else %}
-            <div class="alert alert-warning">Aucune salle disponible ne correspond à vos critères.</div>
+            <p class="text-red-500 col-span-full text-center">Aucune salle disponible ne correspond à vos critères.</p>
         {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}

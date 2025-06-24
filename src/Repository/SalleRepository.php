@@ -25,13 +25,13 @@ class SalleRepository extends ServiceEntityRepository
             ->addSelect('c', 'e');
 
         if ($data->nom) {
-            $qb->andWhere('s.nom LIKE :nom')
-                ->setParameter('nom', '%' . $data->nom . '%');
+            $qb->andWhere('LOWER(s.nom) LIKE :nom')
+                ->setParameter('nom', '%' . strtolower($data->nom) . '%');
         }
 
         if ($data->lieu) {
-            $qb->andWhere('s.lieu = :lieu')
-                ->setParameter('lieu', $data->lieu);
+            $qb->andWhere('s.id = :salleId')
+                ->setParameter('salleId', $data->lieu->getId());
         }
 
         if ($data->capaciteMin) {
@@ -44,15 +44,16 @@ class SalleRepository extends ServiceEntityRepository
                 ->setParameter('critergos', $data->critergos);
         }
 
-        if (!empty($data->equipement)) {
-            $qb->andWhere('e.id IN (:equipement)')
-                ->setParameter('equipement', $data->equipements);
+        if (!empty($data->equipements)) {
+            $qb->andWhere('e.id IN (:equipements)')
+                ->setParameter('equipements', $data->equipements);
         }
 
         if ($data->dateDebut && $data->dateFin) {
-            $qb->andWhere('s.id NOT IN (
-                SELECT IDENTITY(r.salles) FROM App\Entity\Reservation r
-                WHERE (
+            $qb->andWhere('NOT EXISTS (
+                SELECT 1 FROM App\Entity\Reservation r
+                WHERE r.salles = s
+                AND (
                     (:debut BETWEEN r.dateDebut AND r.dateFin)
                     OR (:fin BETWEEN r.dateDebut AND r.dateFin)
                     OR (r.dateDebut BETWEEN :debut AND :fin)

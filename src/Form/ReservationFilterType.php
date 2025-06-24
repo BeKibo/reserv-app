@@ -49,6 +49,7 @@ $builder
 'choice_label' => 'nom',
 'multiple' => true,
 'required' => false,
+'expanded' => true,
 'label' => 'Critères ergonomiques',
 ])
 ->add('equipements', EntityType::class, [
@@ -56,6 +57,7 @@ $builder
 'choice_label' => 'nom',
 'multiple' => true,
 'required' => false,
+'expanded' => true,
 'label' => 'Équipements',
 ]);
 }
