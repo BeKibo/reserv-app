@@ -1,0 +1,35 @@
+#!/bin/bash
+# Cross-platform script for copying the vendor directory to the container
+# This script detects the operating system and uses the appropriate script
+
+# Make the scripts executable (this will be skipped on Windows)
+if [ "$(uname)" != "MINGW"* ] && [ "$(uname)" != "CYGWIN"* ] && [ "$(uname)" != "MSYS"* ]; then
+    if [ ! -x "copy-vendor.sh" ]; then
+        echo "Making copy-vendor.sh executable..."
+        chmod +x copy-vendor.sh
+    fi
+fi
+
+# Detect the operating system
+case "$(uname -s)" in
+    Linux*|Darwin*)
+        # Linux or macOS - use the shell script
+        echo "Detected Linux/macOS. Using shell script..."
+        ./copy-vendor.sh
+        ;;
+    CYGWIN*|MINGW*|MSYS*)
+        # Windows with Git Bash - use the shell script
+        echo "Detected Windows with Git Bash. Using shell script..."
+        ./copy-vendor.sh
+        ;;
+    *)
+        # Unknown OS or Windows without Git Bash - try PowerShell
+        echo "Detected Windows or unknown OS. Trying PowerShell script..."
+        if command -v powershell.exe &> /dev/null; then
+            powershell.exe -ExecutionPolicy Bypass -File copy-vendor.ps1
+        else
+            echo "PowerShell not found. Please run copy-vendor.sh or copy-vendor.ps1 directly."
+            exit 1
+        fi
+        ;;
+esac

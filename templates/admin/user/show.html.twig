@@ -1,0 +1,155 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Détails de l'Utilisateur{% endblock %}
+{% block page_title %}Détails de l'Utilisateur{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Détails de l'utilisateur #{{ user.id }}</h5>
+            <div>
+                <a href="{{ path('admin_user_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+                <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Modifier
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Informations générales</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ user.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ user.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{ user.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Rôles</th>
+                                        <td>
+                                            {% for role in user.roles %}
+                                                {% if role != 'ROLE_USER' %}
+                                                    <span class="badge bg-primary">{{ role }}</span>
+                                                {% endif %}
+                                            {% else %}
+                                                <span class="badge bg-secondary">Utilisateur standard</span>
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Réservations ({{ user.reservation|length }})</h6>
+                        </div>
+                        <div class="card-body">
+                            {% if user.reservation|length > 0 %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Salle</th>
+                                                <th>Date</th>
+                                                <th>Statut</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for reservation in user.reservation %}
+                                                <tr class="{{ reservation.validation ? 'reservation-confirmed' : 'reservation-pending' }}">
+                                                    <td>{{ reservation.id }}</td>
+                                                    <td>{{ reservation.salles.nom }}</td>
+                                                    <td>{{ reservation.dateDebut|date('d/m/Y H:i') }}</td>
+                                                    <td>
+                                                        {% if reservation.validation %}
+                                                            <span class="badge bg-success">Confirmée</span>
+                                                        {% else %}
+                                                            <span class="badge bg-warning">En attente</span>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td>
+                                                        <a href="{{ path('admin_reservation_show', {'id': reservation.id}) }}" class="btn btn-sm btn-info">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">Aucune réservation associée à cet utilisateur.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <div></div>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash me-1"></i> Supprimer
+                </button>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+                            {% if not user.reservation.empty %}
+                                <div class="alert alert-warning mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Cet utilisateur a des réservations associées. La suppression est impossible.
+                                </div>
+                            {% endif %}
+                            {% if app.user and app.user.id == user.id %}
+                                <div class="alert alert-warning mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Vous ne pouvez pas supprimer votre propre compte.
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            {% if user.reservation.empty and (not app.user or app.user.id != user.id) %}
+                                <form method="post" action="{{ path('admin_user_delete', {'id': user.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn btn-danger" disabled>Supprimer</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

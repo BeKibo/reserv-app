@@ -1,0 +1,129 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Détails du Critère Ergonomique{% endblock %}
+{% block page_title %}Détails du Critère Ergonomique{% endblock %}
+
+{% block body %}
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Détails du critère ergonomique #{{ critergo.id }}</h5>
+            <div>
+                <a href="{{ path('admin_critergo_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Retour à la liste
+                </a>
+                <a href="{{ path('admin_critergo_edit', {'id': critergo.id}) }}" class="btn btn-primary">
+                    <i class="fas fa-edit me-1"></i> Modifier
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Informations générales</h6>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <th>ID</th>
+                                        <td>{{ critergo.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ critergo.nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Catégorie</th>
+                                        <td>{{ critergo.categorie }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h6 class="mb-0">Salles associées ({{ critergo.salles|length }})</h6>
+                        </div>
+                        <div class="card-body">
+                            {% if critergo.salles|length > 0 %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Nom</th>
+                                                <th>Lieu</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for salle in critergo.salles %}
+                                                <tr>
+                                                    <td>{{ salle.id }}</td>
+                                                    <td>{{ salle.nom }}</td>
+                                                    <td>{{ salle.lieu }}</td>
+                                                    <td>
+                                                        <a href="{{ path('admin_salle_show', {'id': salle.id}) }}" class="btn btn-sm btn-info">
+                                                            <i class="fas fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">Aucune salle associée à ce critère ergonomique.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex justify-content-between">
+                <div></div>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="fas fa-trash me-1"></i> Supprimer
+                </button>
+            </div>
+
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Êtes-vous sûr de vouloir supprimer ce critère ergonomique ?
+                            {% if not critergo.salles.empty %}
+                                <div class="alert alert-warning mt-2">
+                                    <i class="fas fa-exclamation-triangle me-1"></i>
+                                    Ce critère est associé à des salles. La suppression est impossible.
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            {% if critergo.salles.empty %}
+                                <form method="post" action="{{ path('admin_critergo_delete', {'id': critergo.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ critergo.id) }}">
+                                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                                </form>
+                            {% else %}
+                                <button type="button" class="btn btn-danger" disabled>Supprimer</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

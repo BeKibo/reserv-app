@@ -1,0 +1,57 @@
+services:
+  # PHP Application with Apache
+  app:
+    image: webdevops/php-apache:8.3
+    platform: linux/amd64  # Explicitly use Linux platform
+    container_name: reserv-app
+    working_dir: /app
+    volumes:
+      - .:/app
+      - vendor_volume:/app/vendor  # Use a named volume for vendor to prevent Windows path issues
+    ports:
+      - "8080:80"
+    environment:
+      - WEB_DOCUMENT_ROOT=/app/public
+      - PHP_DISPLAY_ERRORS=1
+      - APP_ENV=dev
+      - COMPOSER_ALLOW_SUPERUSER=1  # Allow Composer to run as root
+    # Add a command to ensure the entrypoint script is executed correctly and logs are captured
+    command: >
+      /bin/sh -c "
+        # Ensure vendor directory exists
+        mkdir -p /app/vendor &&
+        # Make sure the entrypoint script is executable
+        chmod +x /app/docker-entrypoint.sh &&
+        # Run the entrypoint script with output redirection to ensure logs are captured
+        /bin/sh /app/docker-entrypoint.sh apache2-foreground 2>&1
+      "
+    depends_on:
+      - database
+
+  # PostgreSQL Database
+  database:
+    image: postgres:16-alpine
+    container_name: reserv-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=app
+      - POSTGRES_PASSWORD=!ChangeMe!
+    ports:
+      - "5432:5432"
+
+  # Mailpit for email testing (optional)
+  mailer:
+    image: axllent/mailpit
+    container_name: reserv-mailer
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      - MP_SMTP_AUTH_ACCEPT_ANY=1
+      - MP_SMTP_AUTH_ALLOW_INSECURE=1
+
+volumes:
+  postgres_data:
+  vendor_volume:  # Named volume for vendor directory to prevent Windows path issues

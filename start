@@ -1,0 +1,39 @@
+#!/bin/bash
+# Cross-platform startup script for the application
+# This script detects the operating system and uses the appropriate startup script
+
+# Make the script executable
+if [ -f "start.sh" ] && [ ! -x "start.sh" ]; then
+    echo "Making start.sh executable..."
+    chmod +x start.sh
+fi
+
+# Detect the operating system
+case "$(uname -s)" in
+    Linux*|Darwin*)
+        # Linux or macOS - use the shell script
+        echo "Detected Linux/macOS. Using shell script..."
+        ./start.sh
+        ;;
+    CYGWIN*|MINGW*|MSYS*)
+        # Windows with Git Bash - use the shell script
+        echo "Detected Windows with Git Bash. Using shell script..."
+        ./start.sh
+        ;;
+    *)
+        # Unknown OS or Windows without Git Bash - try PowerShell
+        echo "Detected Windows or unknown OS. Trying PowerShell script..."
+        if command -v powershell.exe &> /dev/null; then
+            echo "PowerShell found. Running start.ps1..."
+            powershell.exe -ExecutionPolicy Bypass -File start.ps1
+        else
+            echo "PowerShell not found. Trying to run start.sh as a fallback..."
+            if [ -f "start.sh" ]; then
+                ./start.sh
+            else
+                echo "Error: Neither PowerShell nor start.sh could be used. Please install PowerShell or run start.sh directly."
+                exit 1
+            fi
+        fi
+        ;;
+esac

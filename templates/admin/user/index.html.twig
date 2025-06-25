@@ -1,0 +1,106 @@
+{% extends 'admin/layout.html.twig' %}
+
+{% block title %}Gestion des Utilisateurs{% endblock %}
+{% block page_title %}Gestion des Utilisateurs{% endblock %}
+
+{% block body %}
+    <div class="card mb-4">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Liste des utilisateurs</h5>
+            <div>
+                <a href="{{ path('admin_user_new') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-1"></i> Nouvel utilisateur
+                </a>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Rôles</th>
+                            <th>Réservations</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td>{{ user.nom }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% for role in user.roles %}
+                                      <span class="badge bg-primary">{{ role }}</span>
+
+                                 {% endfor %}
+                            </td>
+                            <td>
+                                <span class="badge bg-info">{{ user.reservation|length }}</span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <a href="{{ path('admin_user_show', {'id': user.id}) }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ path('admin_user_edit', {'id': user.id}) }}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ user.id }}">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Delete Modal -->
+                                <div class="modal fade" id="deleteModal{{ user.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ user.id }}" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="deleteModalLabel{{ user.id }}">Confirmation de suppression</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                Êtes-vous sûr de vouloir supprimer cet utilisateur ?
+                                                {% if not user.reservation.empty %}
+                                                    <div class="alert alert-warning mt-2">
+                                                        <i class="fas fa-exclamation-triangle me-1"></i>
+                                                        Cet utilisateur a des réservations associées. La suppression est impossible.
+                                                    </div>
+                                                {% endif %}
+                                                {% if app.user and app.user.id == user.id %}
+                                                    <div class="alert alert-warning mt-2">
+                                                        <i class="fas fa-exclamation-triangle me-1"></i>
+                                                        Vous ne pouvez pas supprimer votre propre compte.
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                                {% if user.reservation.empty and (not app.user or app.user.id != user.id) %}
+                                                    <form method="post" action="{{ path('admin_user_delete', {'id': user.id}) }}">
+                                                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
+                                                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                                                    </form>
+                                                {% else %}
+                                                    <button type="button" class="btn btn-danger" disabled>Supprimer</button>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center">Aucun utilisateur trouvé</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
