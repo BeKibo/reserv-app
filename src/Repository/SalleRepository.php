@@ -25,13 +25,13 @@ class SalleRepository extends ServiceEntityRepository
             ->addSelect('c', 'e');
 
         if ($data->nom) {
-            $qb->andWhere('LOWER(s.nom) LIKE :nom')
-                ->setParameter('nom', '%' . strtolower($data->nom) . '%');
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $data->nom . '%');
         }
 
         if ($data->lieu) {
-            $qb->andWhere('s.id = :salleId')
-                ->setParameter('salleId', $data->lieu->getId());
+            $qb->andWhere('s.lieu = :lieu')
+                ->setParameter('lieu', $data->lieu);
         }
 
         if ($data->capaciteMin) {
@@ -40,27 +40,27 @@ class SalleRepository extends ServiceEntityRepository
         }
 
         if (!empty($data->critergos)) {
-            $qb->andWhere('c.id IN (:critergos)')
-                ->setParameter('critergos', $data->critergos);
+            $qb->andWhere('c IN (:criteres)')
+                ->setParameter('criteres', $data->critergos);
         }
 
         if (!empty($data->equipements)) {
-            $qb->andWhere('e.id IN (:equipements)')
+            $qb->andWhere('e IN (:equipements)')
                 ->setParameter('equipements', $data->equipements);
         }
 
         if ($data->dateDebut && $data->dateFin) {
-            $qb->andWhere('NOT EXISTS (
-                SELECT 1 FROM App\Entity\Reservation r
-                WHERE r.salles = s
-                AND (
+            $qb->andWhere('s.id NOT IN (
+                SELECT salle_inner.id FROM App\Entity\Reservation r
+                JOIN r.salles salle_inner
+                WHERE (
                     (:debut BETWEEN r.dateDebut AND r.dateFin)
                     OR (:fin BETWEEN r.dateDebut AND r.dateFin)
                     OR (r.dateDebut BETWEEN :debut AND :fin)
                 )
             )')
-                ->setParameter('debut', $data->dateDebut)
-                ->setParameter('fin', $data->dateFin);
+            ->setParameter('debut', $data->dateDebut)
+            ->setParameter('fin', $data->dateFin);
         }
 
         return $qb->getQuery()->getResult();
