@@ -33,16 +33,16 @@ class SalleRepository extends ServiceEntityRepository
                 ->setParameter('nom', '%' . $data->nom . '%');
         }
 
-        // 📍 Filtre par lieu
-        if ($data->lieu) {
-            $qb->andWhere('s.lieu = :lieu')
-                ->setParameter('lieu', $data->lieu);
-        }
-
         // 👥 Filtre par capacité minimum
         if ($data->capaciteMin) {
             $qb->andWhere('s.capacite >= :capaciteMin')
                 ->setParameter('capaciteMin', $data->capaciteMin);
+        }
+
+        // 📍 Filtre par lieu (entité Salle attendue dans le filtre)
+        if ($data->lieu) {
+            $qb->andWhere('s.id = :salleId')
+                ->setParameter('salleId', $data->lieu->getId());
         }
 
         // 🛠️ Filtre par critères ergonomiques
@@ -57,10 +57,12 @@ class SalleRepository extends ServiceEntityRepository
                 ->setParameter('equipements', $data->equipements);
         }
 
-        // 🗓️ Filtre par disponibilité (pas de réservation validée sur cette période)
+        // 🗓️ Filtre par disponibilité (exclure les salles déjà réservées et validées à ces dates)
         if ($data->dateDebut && $data->dateFin) {
             $qb->andWhere('s.id NOT IN (
-                SELECT IDENTITY(r.salles) FROM App\Entity\Reservation r
+                SELECT s_inner.id
+                FROM App\Entity\Reservation r
+                JOIN r.salles s_inner
                 WHERE r.validation = true
                 AND r.dateFin > :debut
                 AND r.dateDebut < :fin

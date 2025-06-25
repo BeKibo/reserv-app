@@ -19,13 +19,25 @@ final class SalleController extends AbstractController
         $form = $this->createForm(ReservationFilterType::class, $filter);
         $form->handleRequest($request);
 
-        dump($filter->dateDebut, $filter->dateFin);
-
+        // 🧪 Dump des données du filtre
+        dump([
+            'nom' => $filter->nom,
+            'capaciteMin' => $filter->capaciteMin,
+            'lieu' => $filter->lieu,
+            'dateDebut' => $filter->dateDebut,
+            'dateFin' => $filter->dateFin,
+            'critergos' => $filter->critergos,
+            'equipements' => $filter->equipements,
+        ]);
 
         $salles = $salleRepository->findWithFilter($filter);
 
+        // 🧪 Dump du résultat des salles trouvées
+        dump([
+            'sallesCount' => count($salles),
+            'salles' => $salles,
+        ]);
 
-        dump($salles);
         //  On crée la vue du formulaire avant de manipuler ses champs
         $formView = $form->createView();
 

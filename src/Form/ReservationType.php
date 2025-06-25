@@ -7,7 +7,7 @@ use App\Entity\Salle;
 use App\Entity\Equipement;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -22,11 +22,11 @@ class ReservationType extends AbstractType
                 'label' => 'Salle',
                 'placeholder' => 'Choisir une salle',
             ])
-            ->add('dateDebut', DateTimeType::class, [
+            ->add('dateDebut', DateType::class, [
                 'label' => 'Date de début',
                 'widget' => 'single_text',
             ])
-            ->add('dateFin', DateTimeType::class, [
+            ->add('dateFin', DateType::class, [
                 'label' => 'Date de fin',
                 'widget' => 'single_text',
             ])
