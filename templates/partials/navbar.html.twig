@@ -1,0 +1,19 @@
+<nav class="bg-gray-800 p-4">
+    <div class="container mx-auto flex items-center justify-between">
+        <div class="flex space-x-6">
+            <a href="{{ path('app_salle') }}" class="text-white hover:text-blue-400 font-semibold">Salle</a>
+            <a href="{{ path('reservation_index') }}" class="text-white hover:text-blue-400 font-semibold">Réservation</a>
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="text-white hover:text-red-400 font-semibold">Admin</a>
+            {% endif %}
+        </div>
+
+        {% if app.user %}
+            <div class="text-sm text-white">
+                Bonjour, {{ app.user.email }} |
+                <a href="{{ path('app_logout') }}" class="hover:underline text-red-400">Déconnexion</a>
+            </div>
+        {% endif %}
+    </div>
+</nav>
