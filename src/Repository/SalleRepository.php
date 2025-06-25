@@ -63,7 +63,7 @@ class SalleRepository extends ServiceEntityRepository
                 SELECT s_inner.id
                 FROM App\Entity\Reservation r
                 JOIN r.salles s_inner
-                WHERE r.validation = true
+                WHERE (r.validation = true OR r.validation = false)
                 AND r.dateFin > :debut
                 AND r.dateDebut < :fin
             )')

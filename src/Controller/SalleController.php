@@ -32,12 +32,6 @@ final class SalleController extends AbstractController
 
         $salles = $salleRepository->findWithFilter($filter);
 
-        // 🧪 Dump du résultat des salles trouvées
-        dump([
-            'sallesCount' => count($salles),
-            'salles' => $salles,
-        ]);
-
         //  On crée la vue du formulaire avant de manipuler ses champs
         $formView = $form->createView();
 
