@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ReservationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -30,6 +32,17 @@ class Reservation
     #[ORM\ManyToOne(inversedBy: 'reservation')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $users = null;
+
+    /**
+     * @var Collection<int, Equipement>
+     */
+    #[ORM\ManyToMany(targetEntity: Equipement::class)]
+    private Collection $equipements;
+
+    public function __construct()
+    {
+        $this->equipements = new ArrayCollection();
+    }
 
 
 
@@ -90,6 +103,30 @@ class Reservation
     public function setValidation(bool $validation): static
     {
         $this->validation = $validation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Equipement>
+     */
+    public function getEquipements(): Collection
+    {
+        return $this->equipements;
+    }
+
+    public function addEquipement(Equipement $equipement): static
+    {
+        if (!$this->equipements->contains($equipement)) {
+            $this->equipements->add($equipement);
+        }
+
+        return $this;
+    }
+
+    public function removeEquipement(Equipement $equipement): static
+    {
+        $this->equipements->removeElement($equipement);
 
         return $this;
     }
