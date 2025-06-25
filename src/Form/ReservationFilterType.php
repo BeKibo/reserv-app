@@ -52,14 +52,7 @@ $builder
 'expanded' => true,
 'label' => 'Critères ergonomiques',
 ])
-->add('equipements', EntityType::class, [
-'class' => Equipement::class,
-'choice_label' => 'nom',
-'multiple' => true,
-'required' => false,
-'expanded' => true,
-'label' => 'Équipements',
-]);
+;
 }
 
 public function configureOptions(OptionsResolver $resolver)

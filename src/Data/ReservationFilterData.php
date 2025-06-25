@@ -13,5 +13,4 @@ class ReservationFilterData
     public ?DateTimeInterface $dateDebut = null;
     public ?DateTimeInterface $dateFin = null;
     public array $critergos = [];
-    public array $equipements = [];
 }

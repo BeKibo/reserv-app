@@ -60,25 +60,6 @@
             </div>
         </div>
 
-        <div class="mb-6">
-            <label class="block text-sm font-semibold mb-2">Équipements</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                {% for categorie, champs in grouped_equipements %}
-                    <details class="bg-gray-100 rounded shadow-sm">
-                        <summary class="cursor-pointer px-4 py-2 font-semibold">{{ categorie }}</summary>
-                        <div class="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            {% for champ in champs %}
-                                <label class="flex items-center gap-2 text-sm">
-                                    {{ form_widget(champ) }}
-                                    {{ form_label(champ, null, { label_attr: { class: 'mb-0' } }) }}
-                                </label>
-                            {% endfor %}
-                        </div>
-                    </details>
-                {% endfor %}
-            </div>
-        </div>
-
         <div class="text-end mt-6">
             <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Filtrer les résultats</button>
         </div>
