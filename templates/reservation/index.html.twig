@@ -12,17 +12,6 @@
         <div class="alert alert-danger">{{ message }}</div>
     {% endfor %}
 
-    {# <ul>
-        {% for reservation in reservations %}
-            <li>
-                {{ reservation.users.email }} a réservé la salle {{ reservation.salles.nom }}
-                du {{ reservation.dateDebut|date('d/m/Y H:i') }} au {{ reservation.dateFin|date('d/m/Y H:i') }}
-            </li>
-        {% else %}
-            <li>Aucune réservation pour le moment.</li>
-        {% endfor %}
-    </ul> #}
-
     <h2>Nouvelle réservation</h2>
 
     {{ form_start(form) }}
