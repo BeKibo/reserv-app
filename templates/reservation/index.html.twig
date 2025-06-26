@@ -18,16 +18,44 @@
             </div>
         {% endfor %}
 
-        <h2 class="text-xl font-semibold mb-4 text-gray-700">Nouvelle réservation</h2>
-
         <div class="bg-white shadow-md rounded-lg p-6">
             {{ form_start(form) }}
-                <div class="space-y-4">
-                    {{ form_widget(form) }}
+
+                <div class="mb-4">
+                    {{ form_row(form.salles) }}
                 </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+                <label for="{{ form.dateDebut.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.dateDebut.vars.label }}
+                </label>
+                {{ form_widget(form.dateDebut, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm' } }) }}
+            </div>
+
+            <div>
+                <label for="{{ form.dateFin.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.dateFin.vars.label }}
+                </label>
+                {{ form_widget(form.dateFin, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm' } }) }}
+            </div>
+        </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold mb-2m">Équipements souhaités</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
+                        {% for child in form.equipements %}
+                            <label class="flex items-center gap-2 text-sm text-gray-700">
+                                {{ form_widget(child) }}
+                                {{ form_label(child, null, { label_attr: { class: 'mb-0' } }) }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
                 <button type="submit" class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
                     Réserver
                 </button>
+
             {{ form_end(form) }}
         </div>
     </div>
