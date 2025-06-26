@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250618144112 extends AbstractMigration
+final class Version20250625153046 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -36,6 +36,23 @@ final class Version20250618144112 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             CREATE INDEX IDX_42C8495567B3B43D ON reservation (users_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE reservation_equipement (reservation_id INTEGER NOT NULL, equipement_id INTEGER NOT NULL, PRIMARY KEY(reservation_id, equipement_id), CONSTRAINT FK_D81E0F47B83297E7 FOREIGN KEY (reservation_id) REFERENCES reservation (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE, CONSTRAINT FK_D81E0F47806F0F5C FOREIGN KEY (equipement_id) REFERENCES equipement (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_D81E0F47B83297E7 ON reservation_equipement (reservation_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_D81E0F47806F0F5C ON reservation_equipement (equipement_id)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE TABLE reset_password_request (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, user_id INTEGER NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+            , expires_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
+            , CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE)
+        SQL);
+        $this->addSql(<<<'SQL'
+            CREATE INDEX IDX_7CE748AA76ED395 ON reset_password_request (user_id)
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE salle (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, nom VARCHAR(80) DEFAULT NULL, lieu VARCHAR(125) DEFAULT NULL, capacite INTEGER NOT NULL, image VARCHAR(255) NOT NULL, description CLOB NOT NULL)
@@ -93,6 +110,12 @@ final class Version20250618144112 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE reservation
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE reservation_equipement
+        SQL);
+        $this->addSql(<<<'SQL'
+            DROP TABLE reset_password_request
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE salle

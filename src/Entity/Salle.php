@@ -38,20 +38,15 @@ class Salle
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
     private ?string $image = 'default.jpg';
 
-
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 20, max: 300, minMessage: 'Le lieu contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
     private ?string $description = null;
-
-
-
-
 
     /**
      * @var Collection<int, Equipement>
      */
     #[ORM\ManyToMany(targetEntity: Equipement::class, inversedBy: 'salles')]
-    private Collection $Equipement;
+    private Collection $equipement;
 
     /**
      * @var Collection<int, CritErgo>
@@ -67,7 +62,7 @@ class Salle
 
     public function __construct()
     {
-        $this->Equipement = new ArrayCollection();
+        $this->equipement = new ArrayCollection();
         $this->critergo = new ArrayCollection();
         $this->reservation = new ArrayCollection();
     }
@@ -121,18 +116,29 @@ class Salle
         return $this;
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
+
     /**
      * @return Collection<int, Equipement>
      */
     public function getEquipement(): Collection
     {
-        return $this->Equipement;
+        return $this->equipement;
     }
 
     public function addEquipement(Equipement $equipement): static
     {
-        if (!$this->Equipement->contains($equipement)) {
-            $this->Equipement->add($equipement);
+        if (!$this->equipement->contains($equipement)) {
+            $this->equipement->add($equipement);
         }
 
         return $this;
@@ -140,7 +146,7 @@ class Salle
 
     public function removeEquipement(Equipement $equipement): static
     {
-        $this->Equipement->removeElement($equipement);
+        $this->equipement->removeElement($equipement);
         return $this;
     }
 
@@ -196,16 +202,6 @@ class Salle
         return $this;
     }
 
-    // public function isReservedAt(\DateTimeImmutable $date): bool
-    // {
-    //     foreach ($this->reservation as $res) {
-    //         if ($date >= $res->getDateDebut() && $date < $res->getDateFin()) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     public function isReservedBetween(\DateTimeImmutable $start, \DateTimeImmutable $end): bool
     {
         foreach ($this->reservation as $res) {
@@ -216,15 +212,8 @@ class Salle
         return false;
     }
 
-    public function getDescription(): ?string
+    public function __toString(): string
     {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
+        return $this->nom ?? 'Salle #' . $this->id;
     }
 }

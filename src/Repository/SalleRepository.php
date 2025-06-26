@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Salle;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Data\ReservationFilterData;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Salle>
@@ -16,28 +17,60 @@ class SalleRepository extends ServiceEntityRepository
         parent::__construct($registry, Salle::class);
     }
 
-    //    /**
-    //     * @return Salle[] Returns an array of Salle objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Récupère les salles filtrées selon les critères (nom, lieu, capacité, équipements, critErgo, dates).
+     */
+    public function findWithFilter(ReservationFilterData $data): array
+    {
+        $qb = $this->createQueryBuilder('s')
+            ->leftJoin('s.critergo', 'c')
+            ->leftJoin('s.equipement', 'e')
+            ->addSelect('c', 'e');
 
-    //    public function findOneBySomeField($value): ?Salle
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        // 🔍 Filtre par nom
+        if ($data->nom) {
+            $qb->andWhere('s.nom LIKE :nom')
+                ->setParameter('nom', '%' . $data->nom . '%');
+        }
+
+        // 👥 Filtre par capacité minimum
+        if ($data->capaciteMin) {
+            $qb->andWhere('s.capacite >= :capaciteMin')
+                ->setParameter('capaciteMin', $data->capaciteMin);
+        }
+
+        // 📍 Filtre par lieu (entité Salle attendue dans le filtre)
+        if ($data->lieu) {
+            $qb->andWhere('s.id = :salleId')
+                ->setParameter('salleId', $data->lieu->getId());
+        }
+
+        // 🛠️ Filtre par critères ergonomiques
+        if (!empty($data->critergos)) {
+            $qb->andWhere('c IN (:criteres)')
+                ->setParameter('criteres', $data->critergos);
+        }
+
+        // ⚙️ Filtre par équipements
+        if (!empty($data->equipements)) {
+            $qb->andWhere('e IN (:equipements)')
+                ->setParameter('equipements', $data->equipements);
+        }
+
+        // 🗓️ Filtre par disponibilité (exclure les salles déjà réservées et validées à ces dates)
+        if ($data->dateDebut && $data->dateFin) {
+            $qb->andWhere('s.id NOT IN (
+                SELECT s_inner.id
+                FROM App\Entity\Reservation r
+                JOIN r.salles s_inner
+                WHERE (r.validation = true OR r.validation = false)
+                AND r.dateFin > :debut
+                AND r.dateDebut < :fin
+            )')
+                ->setParameter('debut', $data->dateDebut)
+                ->setParameter('fin', $data->dateFin);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 }

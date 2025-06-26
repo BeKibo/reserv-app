@@ -3,12 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Reservation;
+use App\Entity\Salle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-/**
- * @extends ServiceEntityRepository<Reservation>
- */
 class ReservationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -16,30 +14,21 @@ class ReservationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reservation::class);
     }
 
-    //    /**
-    //     * @return Reservation[] Returns an array of Reservation objects
-    //     */
-    // 
-
-    public function findAllWithSalleAndUser(): array
+    /**
+     * Vérifie si une salle est déjà réservée (validée) à ces dates.
+     */
+    public function isSalleReservedBetween(Salle $salle, \DateTimeInterface $start, \DateTimeInterface $end): bool
     {
         return $this->createQueryBuilder('r')
-            ->join('r.salles', 's')
-            ->addSelect('s')
-            ->join('r.users', 'u')
-            ->addSelect('u')
+            ->select('count(r.id)')
+            ->andWhere('r.salles = :salle')
+            ->andWhere('r.validation = true')
+            ->andWhere('r.dateFin > :start')
+            ->andWhere('r.dateDebut < :end')
+            ->setParameter('salle', $salle)
+            ->setParameter('start', $start)
+            ->setParameter('end', $end)
             ->getQuery()
-            ->getResult();
+            ->getSingleScalarResult() > 0;
     }
-
-
-    //    public function findOneBySomeField($value): ?Reservation
-    //    {
-    //        return $this->createQueryBuilder('r')
-    //            ->andWhere('r.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
