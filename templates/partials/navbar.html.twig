@@ -1,4 +1,4 @@
-<nav class="bg-gray-800 p-4">
+<nav class="bg-violet-500 p-4">
     <div class="container mx-auto flex items-center justify-between">
         <div class="flex space-x-6">
             <a href="{{ path('app_salle') }}" class="text-white hover:text-blue-400 font-semibold">Salle</a>
@@ -9,11 +9,13 @@
             {% endif %}
         </div>
 
-        {% if app.user %}
-            <div class="text-sm text-white">
-                Bonjour, {{ app.user.email }} |
-                <a href="{{ path('app_logout') }}" class="hover:underline text-red-400">Déconnexion</a>
-            </div>
-        {% endif %}
+        <div class="text-base text-white">
+            {% if app.user %}
+            Hello, {{ app.user.nom }} |
+                <a href="{{ path('app_logout') }}" class="hover:underline text-orange-400 font-semibold text-base">Déconnexion</a>
+            {% else %}
+                <a href="{{ path('app_login') }}" class="hover:underline text-yellow-400 font-semibold text-base">Connexion</a>
+            {% endif %}
+        </div>
     </div>
 </nav>

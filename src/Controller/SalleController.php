@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class SalleController extends AbstractController
 {
-    #[Route('/salle', name: 'app_salle')]
+    #[Route('/', name: 'app_salle')]
     public function index(Request $request, SalleRepository $salleRepository): Response
     {
         $filter = new ReservationFilterData();

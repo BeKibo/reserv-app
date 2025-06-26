@@ -38,14 +38,9 @@ class Salle
     #[Assert\Regex(pattern: '/\.(jpg|jpeg|png|webp)$/')]
     private ?string $image = 'default.jpg';
 
-
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\Length(min: 20, max: 300, minMessage: 'Le lieu contient au minimum {{ min }} caractères et au maximum {{ max }} caractères')]
     private ?string $description = null;
-
-
-
-
 
     /**
      * @var Collection<int, Equipement>
@@ -118,6 +113,17 @@ class Salle
     public function setImage(string $image): static
     {
         $this->image = $image;
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
         return $this;
     }
 
@@ -196,16 +202,6 @@ class Salle
         return $this;
     }
 
-    // public function isReservedAt(\DateTimeImmutable $date): bool
-    // {
-    //     foreach ($this->reservation as $res) {
-    //         if ($date >= $res->getDateDebut() && $date < $res->getDateFin()) {
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
-
     public function isReservedBetween(\DateTimeImmutable $start, \DateTimeImmutable $end): bool
     {
         foreach ($this->reservation as $res) {
@@ -216,15 +212,8 @@ class Salle
         return false;
     }
 
-    public function getDescription(): ?string
+    public function __toString(): string
     {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): static
-    {
-        $this->description = $description;
-
-        return $this;
+        return $this->nom ?? 'Salle #' . $this->id;
     }
 }
