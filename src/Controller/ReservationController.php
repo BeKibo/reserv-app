@@ -2,10 +2,10 @@
 
 namespace App\Controller;
 
+use DateType;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\SalleRepository;
-use App\Entity\Salle;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,7 +44,7 @@ class ReservationController extends AbstractController
             }
         }
 
-        return $this->render('reservation/index.html.twig', [
+        return $this->render('reservation/reservation.html.twig', [
             'reservations' => $reservations,
             'form' => $form->createView(),
         ]);
@@ -66,6 +66,18 @@ class ReservationController extends AbstractController
 
         $reservation = new Reservation();
         $reservation->setSalles($salle);
+
+        // Récupération des dates passées en query string et injection dans le formulaire
+        $dateDebutParam = $request->query->get('dateDebut');
+        $dateFinParam = $request->query->get('dateFin');
+
+        if ($dateDebutParam) {
+            $reservation->setDateDebut(new \DateType($dateDebutParam));
+        }
+
+        if ($dateFinParam) {
+            $reservation->setDateFin(new DateType($dateFinParam));
+        }
 
         $form = $this->createForm(ReservationType::class, $reservation);
         $form->handleRequest($request);

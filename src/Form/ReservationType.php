@@ -36,7 +36,7 @@ class ReservationType extends AbstractType
                 'class' => Equipement::class,
                 'choice_label' => 'nom',
                 'multiple' => true,
-                'expanded' => true, // ✅ liste déroulante multi-select
+                'expanded' => true, // liste déroulante multi-select
                 'label' => 'Équipements souhaités',
                 'required' => false,
                 'attr' => [

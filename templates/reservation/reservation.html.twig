@@ -60,11 +60,26 @@
             </div>
         </div>
 
-        <button type="submit" class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
+        <button id="submit-btn" type="submit" class="mt-6 inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
             Réserver
         </button>
 
         {{ form_end(form) }}
     </div>
 </div>
+
+{# Alerte si l'utilisateur n'est pas connecté #}
+{% if not app.user %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const btn = document.getElementById('submit-btn');
+            if (btn) {
+                btn.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    alert("Vous devez être connecté pour réserver une salle.");
+                });
+            }
+        });
+    </script>
+{% endif %}
 {% endblock %}
