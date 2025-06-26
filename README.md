@@ -1,3 +1,12 @@
+Parfait ! On va faire deux choses ensemble :
+
+---
+
+## ✅ 1. Création d’un bon `README.md` pour ton projet `reserv-app`
+
+Voici un modèle simple, clair et adapté à ton dépôt Symfony :
+
+````markdown
 # Reserv-App
 
 > Une application Symfony de gestion de réservations de salles avec équipements et critères ergonomiques.
@@ -27,3 +36,35 @@ git clone https://github.com/BeKibo/reserv-app.git
 cd reserv-app
 composer install
 symfony server:start
+````
+
+> Assure-toi d’avoir PHP, Composer et Symfony CLI installés.
+
+## 🧪 Données de test
+
+Des fixtures sont incluses :
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+## 📸 Aperçu
+
+![Aperçu](./public/images/screenshot.png) <!-- à personnaliser si tu as un screenshot -->
+
+---
+
+## 📦 Stack technique
+
+* PHP 8+, Symfony 6
+* Doctrine ORM
+* Twig
+* EasyAdmin
+* Bootstrap ou Tailwind (selon ce que tu utilises)
+
+## ✨ Auteur
+
+**BeKibo**
+[GitHub Profile](https://github.com/BeKibo)
+**Selligs**
+[GitHub Profile](https://github.com/Selligsl)
