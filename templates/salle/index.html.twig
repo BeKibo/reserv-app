@@ -71,14 +71,14 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {% for salle in salles %}
-            <div class="bg-white shadow-md rounded overflow-hidden">
+            <a href="{{ path('app_reservation_salle', { 'id': salle.id }) }}" class="block bg-white shadow-md rounded overflow-hidden hover:shadow-lg transition">
                 <img src="{{ asset(salle.image) }}" alt="{{ salle.nom }}" class="w-full h-40 object-cover">
                 <div class="p-4 text-center text-sm">
                     <p class="font-bold">{{ salle.nom }}</p>
                     <p class="text-gray-600 text-xs truncate">{{ salle.lieu }}</p>
                     <p class="text-gray-500 text-xs">Capacité : {{ salle.capacite }}</p>
                 </div>
-            </div>
+            </a>
         {% else %}
             <p class="text-red-500 col-span-full text-center">Aucune salle disponible ne correspond à vos critères.</p>
         {% endfor %}

@@ -1,17 +1,22 @@
 <nav class="bg-violet-500 p-4">
     <div class="container mx-auto flex items-center justify-between">
-        <div class="flex space-x-6">
-            <a href="{{ path('app_salle') }}" class="text-white hover:text-blue-400 font-semibold">Salle</a>
-            <a href="{{ path('reservation_index') }}" class="text-white hover:text-blue-400 font-semibold">Réservation</a>
+        <!-- Liens de navigation -->
+        <div class="flex space-x-6 items-center">
+            <a href="{{ path('app_salle') }}" title="Salles" class="flex items-center gap-2 text-white hover:text-blue-400 font-semibold">
+                <i data-lucide="house" class="w-10 h-10"></i>
+            </a>
 
             {% if is_granted('ROLE_ADMIN') %}
-                <a href="{{ path('admin') }}" class="text-white hover:text-red-400 font-semibold">Admin</a>
+                <a href="{{ path('admin') }}" title="Administration" class="text-white hover:text-red-400 font-semibold">
+                    Admin
+                </a>
             {% endif %}
         </div>
 
-        <div class="text-base text-white">
+        <!-- Zone utilisateur -->
+        <div class="text-base text-white flex items-center gap-2">
             {% if app.user %}
-            Hello, {{ app.user.nom }} |
+                <span>Hello, {{ app.user.nom }}</span>
                 <a href="{{ path('app_logout') }}" class="hover:underline text-orange-400 font-semibold text-base">Déconnexion</a>
             {% else %}
                 <a href="{{ path('app_login') }}" class="hover:underline text-yellow-400 font-semibold text-base">Connexion</a>
