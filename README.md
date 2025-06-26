@@ -1,11 +1,3 @@
-Parfait ! On va faire deux choses ensemble :
-
----
-
-## ✅ 1. Création d’un bon `README.md` pour ton projet `reserv-app`
-
-Voici un modèle simple, clair et adapté à ton dépôt Symfony :
-
 ````markdown
 # Reserv-App
 
