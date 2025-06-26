@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+use DateTimeImmutable;
+
 #[Route('/reservation')]
 class ReservationController extends AbstractController
 {
@@ -66,16 +68,13 @@ class ReservationController extends AbstractController
         $reservation = new Reservation();
         $reservation->setSalles($salle);
 
-        // Récupération des dates passées en query string et injection dans le formulaire
-        $dateDebutParam = $request->query->get('dateDebut');
-        $dateFinParam = $request->query->get('dateFin');
-
-        if ($dateDebutParam) {
-            $reservation->setDateDebut(new \DateTimeImmutable($dateDebutParam));
+        // Pré-remplissage des dates depuis la requête GET
+        if ($request->query->get('dateDebut')) {
+            $reservation->setDateDebut(new DateTimeImmutable($request->query->get('dateDebut')));
         }
 
-        if ($dateFinParam) {
-            $reservation->setDateFin(new \DateTimeImmutable($dateFinParam));
+        if ($request->query->get('dateFin')) {
+            $reservation->setDateFin(new DateTimeImmutable($request->query->get('dateFin')));
         }
 
         $form = $this->createForm(ReservationType::class, $reservation);

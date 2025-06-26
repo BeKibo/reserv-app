@@ -52,11 +52,6 @@ class SalleRepository extends ServiceEntityRepository
                 ->setParameter('criteres', $data->critergos);
         }
 
-        //  Filtre par équipements
-        if (!empty($data->equipements)) {
-            $qb->andWhere('e IN (:equipements)')
-                ->setParameter('equipements', $data->equipements);
-        }
 
         //  Filtre par disponibilité (exclure les salles déjà réservées et validées à ces dates)
         if ($data->dateDebut && $data->dateFin) {
