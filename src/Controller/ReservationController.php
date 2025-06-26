@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use DateType;
 use App\Entity\Reservation;
 use App\Form\ReservationType;
 use App\Repository\SalleRepository;
@@ -72,11 +71,11 @@ class ReservationController extends AbstractController
         $dateFinParam = $request->query->get('dateFin');
 
         if ($dateDebutParam) {
-            $reservation->setDateDebut(new \DateType($dateDebutParam));
+            $reservation->setDateDebut(new \DateTimeImmutable($dateDebutParam));
         }
 
         if ($dateFinParam) {
-            $reservation->setDateFin(new DateType($dateFinParam));
+            $reservation->setDateFin(new \DateTimeImmutable($dateFinParam));
         }
 
         $form = $this->createForm(ReservationType::class, $reservation);
