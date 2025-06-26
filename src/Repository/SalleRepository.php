@@ -27,37 +27,33 @@ class SalleRepository extends ServiceEntityRepository
             ->leftJoin('s.equipement', 'e')
             ->addSelect('c', 'e');
 
-        // 🔍 Filtre par nom
+        //  Filtre par nom
         if ($data->nom) {
             $qb->andWhere('s.nom LIKE :nom')
                 ->setParameter('nom', '%' . $data->nom . '%');
         }
 
-        // 👥 Filtre par capacité minimum
+        //  Filtre par capacité minimum
         if ($data->capaciteMin) {
             $qb->andWhere('s.capacite >= :capaciteMin')
                 ->setParameter('capaciteMin', $data->capaciteMin);
         }
 
-        // 📍 Filtre par lieu (entité Salle attendue dans le filtre)
-        if ($data->lieu) {
-            $qb->andWhere('s.id = :salleId')
-                ->setParameter('salleId', $data->lieu->getId());
+        //  Filtre par lieu (entité Salle attendue dans le filtre)
+        if (!empty($data->ville)) {
+            $qb->andWhere('s.lieu LIKE :ville')
+                ->setParameter('ville', '%' . $data->ville . '%');
         }
 
-        // 🛠️ Filtre par critères ergonomiques
+
+        //  Filtre par critères ergonomiques
         if (!empty($data->critergos)) {
             $qb->andWhere('c IN (:criteres)')
                 ->setParameter('criteres', $data->critergos);
         }
 
-        // ⚙️ Filtre par équipements
-        if (!empty($data->equipements)) {
-            $qb->andWhere('e IN (:equipements)')
-                ->setParameter('equipements', $data->equipements);
-        }
 
-        // 🗓️ Filtre par disponibilité (exclure les salles déjà réservées et validées à ces dates)
+        //  Filtre par disponibilité (exclure les salles déjà réservées et validées à ces dates)
         if ($data->dateDebut && $data->dateFin) {
             $qb->andWhere('s.id NOT IN (
                 SELECT s_inner.id

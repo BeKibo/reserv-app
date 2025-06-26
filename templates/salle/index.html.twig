@@ -25,10 +25,10 @@
             </div>
 
             <div>
-                <label for="{{ form.lieu.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
-                    {{ form.lieu.vars.label }}
+                <label for="{{ form.ville.vars.id }}" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ form.ville.vars.label }}
                 </label>
-                {{ form_widget(form.lieu, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500' } }) }}
+                {{ form_widget(form.ville, { attr: { class: 'w-full border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500' } }) }}
             </div>
         </div>
 
@@ -71,14 +71,19 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {% for salle in salles %}
-            <div class="bg-white shadow-md rounded overflow-hidden">
-                <img src="{{ asset(salle.image) }}" alt="{{ salle.nom }}" class="w-full h-40 object-cover">
-                <div class="p-4 text-center text-sm">
-                    <p class="font-bold">{{ salle.nom }}</p>
-                    <p class="text-gray-600 text-xs truncate">{{ salle.lieu }}</p>
-                    <p class="text-gray-500 text-xs">Capacité : {{ salle.capacite }}</p>
-                </div>
-            </div>
+          <a href="{{ path('app_reservation_salle', {
+    'id': salle.id,
+    'dateDebut': form.dateDebut.vars.data ? form.dateDebut.vars.data|date('Y-m-d') : null,
+    'dateFin': form.dateFin.vars.data ? form.dateFin.vars.data|date('Y-m-d') : null
+}) }}" class="block bg-white shadow-md rounded overflow-hidden hover:shadow-lg transition">
+    <img src="{{ asset(salle.image) }}" alt="{{ salle.nom }}" class="w-full h-40 object-cover">
+    <div class="p-4 text-center text-sm">
+        <p class="font-bold">{{ salle.nom }}</p>
+        <p class="text-gray-600 text-xs truncate">{{ salle.lieu }}</p>
+        <p class="text-gray-500 text-xs">Capacité : {{ salle.capacite }}</p>
+    </div>
+</a>
+
         {% else %}
             <p class="text-red-500 col-span-full text-center">Aucune salle disponible ne correspond à vos critères.</p>
         {% endfor %}

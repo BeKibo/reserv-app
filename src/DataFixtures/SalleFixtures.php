@@ -27,27 +27,30 @@ class SalleFixtures extends Fixture
             'Charlemagne',
         ];
 
+        $villes = [
+            ['nom' => 'Paris', 'cp' => '750'],
+            ['nom' => 'Lyon', 'cp' => '690'],
+            ['nom' => 'Marseille', 'cp' => '130'],
+            ['nom' => 'Toulouse', 'cp' => '310'],
+            ['nom' => 'Nice', 'cp' => '060'],
+        ];
+
         $nameCounter = [];
 
         for ($i = 0; $i < 50; $i++) {
 
-            // Choix d’un nom de base aléatoire
             $base = $faker->randomElement($roomNames);
-
-            // Incrémentation du compteur
-            if (!isset($nameCounter[$base])) {
-                $nameCounter[$base] = 1;
-            } else {
-                $nameCounter[$base]++;
-            }
-
-            // Génération du nom complet
+            $nameCounter[$base] = ($nameCounter[$base] ?? 0) + 1;
             $uniqueName = $base . ' ' . $nameCounter[$base];
+
+            $ville = $faker->randomElement($villes);
+            $codePostal = $ville['cp'] . $faker->numberBetween(0, 9) . $faker->numberBetween(0, 9);
+            $adresse = $faker->streetAddress . ', ' . $codePostal . ' ' . $ville['nom'];
 
             $salle = new Salle();
             $salle
                 ->setNom($uniqueName)
-                ->setLieu($faker->address())
+                ->setLieu($adresse) // <- adresse réaliste
                 ->setCapacite($faker->randomElement([50, 80, 100, 140, 200]))
                 ->setImage('/medias/images/' . $faker->randomElement($images))
                 ->setDescription($faker->text(300));

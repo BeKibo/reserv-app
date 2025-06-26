@@ -23,18 +23,20 @@ class ReservationType extends AbstractType
                 'placeholder' => 'Choisir une salle',
             ])
             ->add('dateDebut', DateType::class, [
+                'widget' => 'single_text',
+                'required' => true,
                 'label' => 'Date de début',
+                ])
+                ->add('dateFin', DateType::class, [
                 'widget' => 'single_text',
-            ])
-            ->add('dateFin', DateType::class, [
+                'required' => true,
                 'label' => 'Date de fin',
-                'widget' => 'single_text',
-            ])
+                ])
             ->add('equipements', EntityType::class, [
                 'class' => Equipement::class,
                 'choice_label' => 'nom',
                 'multiple' => true,
-                'expanded' => false, // ✅ liste déroulante multi-select
+                'expanded' => true, // liste déroulante multi-select
                 'label' => 'Équipements souhaités',
                 'required' => false,
                 'attr' => [
